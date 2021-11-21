@@ -5,17 +5,19 @@ import com.blooddonation.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
 
-    public  ResponseEntity<List<Question>> getAllQuestions(){
+    public ResponseEntity<List<Question>> getAllQuestions() {
         try {
             List<Question> questions = new ArrayList<Question>();
             questionRepository.findAll().forEach(questions::add);
@@ -29,6 +31,7 @@ public class QuestionService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     public ResponseEntity<Question> getQuestionById(UUID id) {
         Optional<Question> question = questionRepository.findById(id);
         if (question.isPresent()) {

@@ -1,7 +1,6 @@
 package com.blooddonation.controller;
 
 import com.blooddonation.model.Question;
-import com.blooddonation.model.User;
 import com.blooddonation.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
