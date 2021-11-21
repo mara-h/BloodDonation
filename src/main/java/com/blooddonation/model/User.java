@@ -1,6 +1,7 @@
 package com.blooddonation.model;
 
 import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -43,14 +44,15 @@ public class User {
     @Column(name = "cnp")
     private String cnp;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(String firstName,String lastName, String email, String password, String sex, String bloodGroup, int age, String cnp) {
+    public User(String firstName, String lastName, String email, String password, String sex, String bloodGroup, int age, String cnp) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.sex=sex;
+        this.sex = sex;
         this.bloodGroup = bloodGroup;
         this.age = age;
         this.cnp = cnp;
