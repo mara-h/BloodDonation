@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "ceva")
+@Table(name = "`user`")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -123,8 +123,4 @@ public class User {
     public void setCnp(String cnp) {
         this.cnp = cnp;
     }
-
-
-
-
 }
