@@ -28,7 +28,7 @@ public class UserService {
             return new ResponseEntity<>(users, HttpStatus.OK);
 
         } catch (Exception e) {
-            System.out.println("Error while getting all products:" + e.getMessage());
+            System.out.println("Error while getting all users:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -75,7 +75,7 @@ public class UserService {
     public ResponseEntity<String> deleteAllUsers() {
         try {
             userRepository.deleteAll();
-            return new ResponseEntity<>("Products successfully deleted", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("Users successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             System.out.println("Users could not be deleted. Error: " + e.getMessage());
             return new ResponseEntity<>("Users could not be deleted. Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
