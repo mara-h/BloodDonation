@@ -33,6 +33,10 @@ public class Question {
         this.answerType = answerType;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public AnswerType getAnswerType() {
         return answerType;
     }
