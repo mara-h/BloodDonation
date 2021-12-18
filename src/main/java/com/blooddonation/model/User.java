@@ -28,10 +28,12 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    //TODO change this to enum
     @NotNull
     @Column(name = "sex")
     private String sex;
 
+    //TODO change this to enum
     @NotNull
     @Column(name = "bloodGroup")
     private String bloodGroup;

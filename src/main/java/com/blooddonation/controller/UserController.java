@@ -45,6 +45,4 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable UUID id) {
         return userService.deleteUser(id);
     }
-
-
 }

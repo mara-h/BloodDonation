@@ -1,10 +1,12 @@
 package com.blooddonation.repository;
 
-import com.blooddonation.model.User;
+import com.blooddonation.model.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface UserRepository  extends JpaRepository<User, UUID> { }
+public interface QuestionRepository extends JpaRepository<Question, UUID> {
+}
+

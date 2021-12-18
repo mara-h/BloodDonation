@@ -2,7 +2,7 @@ version: '3'
 services:
   db:
     image: postgres
-    container_name: myapp_container
+    container_name: bloodapp_container
     environment:
       POSTGRES_DB: my_db
       POSTGRES_USER: my_user
