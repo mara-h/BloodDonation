@@ -11,11 +11,12 @@ import java.util.UUID;
 @SecondaryTable(name = "questions")
 public class Questionnaire {
     @Id
+    @Column(name="questionnaire_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @OneToMany
-    @JoinColumn(name = "fk_questionnaire")
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name="questionnaire_id")
     private List<Question> questions = new ArrayList<Question>();
 
     public Questionnaire() {

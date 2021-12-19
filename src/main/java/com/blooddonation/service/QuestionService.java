@@ -44,7 +44,7 @@ public class QuestionService {
 
     public ResponseEntity<String> addQuestion(Question question) {
         try {
-            Question savedQuestion = questionRepository.save(new Question(question.getQuestionBody(), question.getAnswerType()));
+            Question savedQuestion = questionRepository.save(new Question(question.getQuestionBody(), question.getAnswerType(), question.getQuestionnaire()));
             return new ResponseEntity<>("Question saved successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println("The question could not be added. Error:" + e.getMessage());

@@ -26,10 +26,11 @@ public class Question {
     @Column(name = "answerType")
     private AnswerType answerType;
 
+
     public Question() {
     }
 
-    public Question(String questionBody, AnswerType answerType) {
+    public Question(String questionBody, AnswerType answerType, Questionnaire questionnaire) {
         this.questionBody = questionBody;
         this.answerType = answerType;
     }
