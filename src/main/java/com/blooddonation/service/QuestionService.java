@@ -44,7 +44,7 @@ public class QuestionService {
 
     public ResponseEntity<String> addQuestion(Question question) {
         try {
-            Question savedQuestion = questionRepository.save(new Question(question.getQuestionBody(), question.getAnswerType(), question.getQuestionnaire()));
+            Question savedQuestion = questionRepository.save(new Question(question.getQuestionBody(), question.getQuestionOrder(), question.getAnswerType(), question.getGenderSpecific(), question.isGoodAnswerNo()));
             return new ResponseEntity<>("Question saved successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println("The question could not be added. Error:" + e.getMessage());
@@ -58,6 +58,9 @@ public class QuestionService {
             Question updatedQuestion = oldData.get();
             updatedQuestion.setQuestionBody(question.getQuestionBody());
             updatedQuestion.setAnswerType(question.getAnswerType());
+            updatedQuestion.setGenderSpecific(question.getGenderSpecific());
+            updatedQuestion.setGoodAnswerNo(question.isGoodAnswerNo());
+            updatedQuestion.setQuestionOrder(question.getQuestionOrder());
             return new ResponseEntity<>(questionRepository.save(updatedQuestion), HttpStatus.OK);
         } else {
             System.out.println("No such question found");
