@@ -10,21 +10,11 @@ public class Question {
     private String questionBody;
     private int questionOrder;
 
-    public enum AnswerType {
-        bool, // yes/no question
-        userInput
-    }
+    @Enumerated(EnumType.STRING)
+    private Enums.AnswerType answerType;
 
     @Enumerated(EnumType.STRING)
-    private AnswerType answerType;
-
-    public enum GenderSpecificQuestion {
-        male,
-        female
-    }
-
-    @Enumerated(EnumType.STRING)
-    private GenderSpecificQuestion genderSpecific;
+    private Enums.GenderSpecificQuestion genderSpecific;
 
     private boolean isGoodAnswerNo; //TODO: see how to verify answer for user input
 
@@ -32,7 +22,7 @@ public class Question {
     public Question() {
     }
 
-    public Question(String questionBody, int questionOrder, AnswerType answerType, GenderSpecificQuestion genderSpecificQuestion, boolean isGoodAnswerNo) {
+    public Question(String questionBody, int questionOrder, Enums.AnswerType answerType, Enums.GenderSpecificQuestion genderSpecificQuestion, boolean isGoodAnswerNo) {
         this.questionBody = questionBody;
         this.questionOrder = questionOrder;
         this.answerType = answerType;
@@ -44,11 +34,11 @@ public class Question {
         return id;
     }
 
-    public AnswerType getAnswerType() {
+    public Enums.AnswerType getAnswerType() {
         return answerType;
     }
 
-    public void setAnswerType(AnswerType answerType) {
+    public void setAnswerType(Enums.AnswerType answerType) {
         this.answerType = answerType;
     }
 
@@ -60,11 +50,11 @@ public class Question {
         this.questionBody = questionBody;
     }
 
-    public GenderSpecificQuestion getGenderSpecific() {
+    public Enums.GenderSpecificQuestion getGenderSpecific() {
         return genderSpecific;
     }
 
-    public void setGenderSpecific(GenderSpecificQuestion genderSpecific) {
+    public void setGenderSpecific(Enums.GenderSpecificQuestion genderSpecific) {
         this.genderSpecific = genderSpecific;
     }
 
