@@ -1,7 +1,9 @@
 package com.blooddonation.service;
 
 import com.blooddonation.model.Questionnaire;
+import com.blooddonation.model.User;
 import com.blooddonation.repository.QuestionnaireRepository;
+import com.blooddonation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ import java.util.UUID;
 public class QuestionnaireService {
     @Autowired
     private QuestionnaireRepository questionnaireRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public ResponseEntity<List<Questionnaire>> getAllQuestionnaires() {
         try {
@@ -44,11 +49,42 @@ public class QuestionnaireService {
 
     public ResponseEntity<String> addQuestionnaire(Questionnaire questionnaire) {
         try {
-            Questionnaire savedQuestionnaire = questionnaireRepository.save(new Questionnaire(questionnaire.getUserId(), questionnaire.isValid()));
+            UUID id = UUID.randomUUID();
+            ResponseEntity response = this.addQuestionnaireToUser(questionnaire.getUserId(), id);
+            if (response.getStatusCode().isError()) {
+                // TODO: search a better way to do this(if adding questionnaire fails, what happens?)
+                return new ResponseEntity<>("Error adding questionnaire to user", HttpStatus.BAD_REQUEST);
+            } else {
+                Questionnaire savedQuestionnaire = questionnaireRepository.save(new Questionnaire(id, questionnaire.getUserId(), questionnaire.isValid()));
+            }
             return new ResponseEntity<>("Questionnaire saved successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println("The questionnaire could not be added. Error:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private ResponseEntity<User> addQuestionnaireToUser(UUID userId, UUID id) {
+        if (userId == null) {
+            System.out.println("User ID is null");
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        Optional<User> oldUserData = userRepository.findById(userId);
+        if (oldUserData.isPresent()) {
+            User updatedUser = oldUserData.get();
+            if (updatedUser.getQuestionnairesIds() == null) {
+                List<UUID> list = new ArrayList<>();
+                list.add(id);
+                updatedUser.setQuestionnairesIds(list);
+            } else {
+                List<UUID> list = updatedUser.getQuestionnairesIds();
+                list.add(id);
+                updatedUser.setQuestionnairesIds(list);
+            }
+            return new ResponseEntity<>(userRepository.save(updatedUser), HttpStatus.OK);
+        } else {
+            System.out.println("No such user found");
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 

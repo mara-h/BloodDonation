@@ -1,9 +1,12 @@
 package com.blooddonation.model;
 
 
+import javax.persistence.Id;
 import java.util.UUID;
 
 public class Answer {
+    @Id
+    private UUID id = UUID.randomUUID();
 
     private UUID QuestionnaireId;
     private String answer; // used for user input
@@ -15,6 +18,14 @@ public class Answer {
 
     public Answer(){
 
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public UUID getQuestionnaireId() {

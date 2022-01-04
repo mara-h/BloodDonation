@@ -22,7 +22,8 @@ public class Questionnaire {
     private List<Answer> userInputAnswers;
     private boolean valid; // if it's not valid, the user will not be able to do another questionnaire another 12 h at least
 
-    public Questionnaire(UUID userId,boolean valid) {
+    public Questionnaire(UUID id, UUID userId,boolean valid) {
+        this.id = id;
         this.userId = userId;
         this.valid = valid;
     }
