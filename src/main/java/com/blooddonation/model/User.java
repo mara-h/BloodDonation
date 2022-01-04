@@ -6,8 +6,7 @@ import java.util.UUID;
 
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private UUID id = UUID.randomUUID();
     private String firstName;
     private String lastName;
     private String email;
@@ -31,7 +30,7 @@ public class User {
         this.cnp = cnp;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 

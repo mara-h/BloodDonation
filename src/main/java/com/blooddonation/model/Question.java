@@ -5,8 +5,7 @@ import java.util.UUID;
 
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private UUID id = UUID.randomUUID();
     private String questionBody;
     private int questionOrder;
     public enum AnswerType {
@@ -39,7 +38,7 @@ public class Question {
         this.isGoodAnswerNo = isGoodAnswerNo;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 

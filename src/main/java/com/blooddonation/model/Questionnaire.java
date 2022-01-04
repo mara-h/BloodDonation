@@ -11,9 +11,9 @@ import java.util.UUID;
 
 
 public class Questionnaire {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private UUID id = UUID.randomUUID();
 
     @org.springframework.data.annotation.Transient
     public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -33,7 +33,7 @@ public class Questionnaire {
     public Questionnaire() {
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -77,7 +77,7 @@ public class Questionnaire {
         this.invalidateQuestionnaireAnswers = invalidateQuestionnaireAnswers;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 }
