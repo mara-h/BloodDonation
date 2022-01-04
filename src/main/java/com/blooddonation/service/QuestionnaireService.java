@@ -1,6 +1,5 @@
 package com.blooddonation.service;
 
-import com.blooddonation.model.Question;
 import com.blooddonation.model.Questionnaire;
 import com.blooddonation.repository.QuestionnaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,15 +42,15 @@ public class QuestionnaireService {
         }
     }
 
-//    public ResponseEntity<String> addQuestionnaire(Questionnaire questionnaire) {
-//        try {
-//            Questionnaire savedQuestionnaire = questionnaireRepository.save(new Questionnaire(questionnaire.get));
-//            return new ResponseEntity<>("Questionnaire saved successfully", HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            System.out.println("The questionnaire could not be added. Error:" + e.getMessage());
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    public ResponseEntity<String> addQuestionnaire(Questionnaire questionnaire) {
+        try {
+            Questionnaire savedQuestionnaire = questionnaireRepository.save(new Questionnaire(questionnaire.getUserId()));
+            return new ResponseEntity<>("Questionnaire saved successfully", HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.out.println("The questionnaire could not be added. Error:" + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     public ResponseEntity<Questionnaire> updateQuestionnaire(UUID id, Questionnaire questionnaire) {
         Optional<Questionnaire> oldData = questionnaireRepository.findById(id);

@@ -5,12 +5,11 @@ import java.util.UUID;
 
 public class Answer {
 
-
-    private UUID questionId;
+    private UUID QuestionnaireId;
     private String answer; // used for user input
 
     public Answer(UUID questionId, String answer) {
-        this.questionId = questionId;
+        this.QuestionnaireId = questionId;
         this.answer = answer;
     }
 
@@ -19,11 +18,11 @@ public class Answer {
     }
 
     public UUID getQuestionId() {
-        return questionId;
+        return QuestionnaireId;
     }
 
     public void setQuestionId(UUID questionId) {
-        this.questionId = questionId;
+        this.QuestionnaireId = questionId;
     }
 
     public String getAnswer() {

@@ -6,8 +6,10 @@ import java.util.UUID;
 public class Question {
     @Id
     private UUID id = UUID.randomUUID();
+
     private String questionBody;
     private int questionOrder;
+
     public enum AnswerType {
         bool, // yes/no question
         userInput

@@ -20,14 +20,11 @@ public class Questionnaire {
 
     private String added_at = dateFormat.format(new Date());
     private UUID userId;
-    private List<Answer> userInputAnswers = new ArrayList<>();
-    private List<Answer> invalidateQuestionnaireAnswers = new ArrayList<>();
+    private List<Answer> userInputAnswers;
+//    private List<Answer> invalidateQuestionnaireAnswers;
 
-    public Questionnaire(String added_at, UUID userId, List<Answer> userInputAnswers, List<Answer> invalidateQuestionnaireAnswers) {
-        this.added_at = added_at; // not sure if this needs to be in the constructor
+    public Questionnaire(UUID userId) {
         this.userId = userId;
-        this.userInputAnswers = userInputAnswers;
-        this.invalidateQuestionnaireAnswers = invalidateQuestionnaireAnswers;
     }
 
     public Questionnaire() {
@@ -69,13 +66,13 @@ public class Questionnaire {
         this.userInputAnswers = userInputAnswers;
     }
 
-    public List<Answer> getInvalidateQuestionnaireAnswers() {
-        return invalidateQuestionnaireAnswers;
-    }
-
-    public void setInvalidateQuestionnaireAnswers(List<Answer> invalidateQuestionnaireAnswers) {
-        this.invalidateQuestionnaireAnswers = invalidateQuestionnaireAnswers;
-    }
+//    public List<Answer> getInvalidateQuestionnaireAnswers() {
+//        return invalidateQuestionnaireAnswers;
+//    }
+//
+//    public void setInvalidateQuestionnaireAnswers(List<Answer> invalidateQuestionnaireAnswers) {
+//        this.invalidateQuestionnaireAnswers = invalidateQuestionnaireAnswers;
+//    }
 
     public UUID getId() {
         return id;
