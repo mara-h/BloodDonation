@@ -1,47 +1,44 @@
 package com.blooddonation.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
-@Table(name = "questions")
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
-    @NotNull
-    @Column(name = "questionBody")
     private String questionBody;
-
-    public enum AnswerType {
-        bool, // yes/no question
-        userInput
-    }
+    private int questionOrder;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "answerType")
-    private AnswerType answerType;
+    private Enums.AnswerType answerType;
+
+    @Enumerated(EnumType.STRING)
+    private Enums.Sex genderSpecific; // if null -> it's general
+
+    private boolean isGoodAnswerNo; //TODO: see how to verify answer for user input
+
 
     public Question() {
     }
 
-    public Question(String questionBody, AnswerType answerType) {
+    public Question(String questionBody, int questionOrder, Enums.AnswerType answerType, Enums.Sex genderSpecificQuestion, boolean isGoodAnswerNo) {
         this.questionBody = questionBody;
+        this.questionOrder = questionOrder;
         this.answerType = answerType;
+        this.genderSpecific = genderSpecificQuestion; // if null/empty -> used for both
+        this.isGoodAnswerNo = isGoodAnswerNo;
     }
 
     public UUID getId() {
         return id;
     }
 
-    public AnswerType getAnswerType() {
+    public Enums.AnswerType getAnswerType() {
         return answerType;
     }
 
-    public void setAnswerType(AnswerType answerType) {
+    public void setAnswerType(Enums.AnswerType answerType) {
         this.answerType = answerType;
     }
 
@@ -51,5 +48,29 @@ public class Question {
 
     public void setQuestionBody(String questionBody) {
         this.questionBody = questionBody;
+    }
+
+    public Enums.Sex getGenderSpecific() {
+        return genderSpecific;
+    }
+
+    public void setGenderSpecific(Enums.Sex genderSpecific) {
+        this.genderSpecific = genderSpecific;
+    }
+
+    public boolean isGoodAnswerNo() {
+        return isGoodAnswerNo;
+    }
+
+    public void setGoodAnswerNo(boolean goodAnswerNo) {
+        isGoodAnswerNo = goodAnswerNo;
+    }
+
+    public int getQuestionOrder() {
+        return questionOrder;
+    }
+
+    public void setQuestionOrder(int questionOrder) {
+        this.questionOrder = questionOrder;
     }
 }

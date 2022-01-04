@@ -1,55 +1,32 @@
 package com.blooddonation.model;
 
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Table(name = "`user`")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-
-    @NotNull
-    @Column(name = "firstName")
+    private UUID id = UUID.randomUUID();
     private String firstName;
-
-    @NotNull
-    @Column(name = "lastName")
     private String lastName;
-
-    @NotNull
-    @Column(name = "email")
     private String email;
-
-    @NotNull
-    @Column(name = "password")
     private String password;
+    private List<Questionnaire> questionnaires;
 
-    //TODO change this to enum
-    @NotNull
-    @Column(name = "sex")
-    private String sex;
+    @Enumerated(EnumType.STRING)
+    private Enums.Sex sex; // if null -> it's general
 
-    //TODO change this to enum
-    @NotNull
-    @Column(name = "bloodGroup")
-    private String bloodGroup;
+    @Enumerated(EnumType.STRING)
+    private Enums.BloodGroups bloodGroup;
 
-    @NotNull
-    @Column(name = "age")
     private int age;
-
-    @NotNull
-    @Column(name = "cnp")
     private String cnp;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, String sex, String bloodGroup, int age, String cnp) {
+    public User(String firstName, String lastName, String email, String password, Enums.Sex sex, Enums.BloodGroups bloodGroup, int age, String cnp) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -96,19 +73,15 @@ public class User {
         this.email = email;
     }
 
-    public String getSex() {
-        return sex;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getBloodGroup() {
+    public Enums.BloodGroups getBloodGroup() {
         return bloodGroup;
     }
 
-    public void setBloodGroup(String bloodGroup) {
+    public void setBloodGroup(Enums.BloodGroups bloodGroup) {
         this.bloodGroup = bloodGroup;
     }
 
@@ -126,5 +99,21 @@ public class User {
 
     public void setCnp(String cnp) {
         this.cnp = cnp;
+    }
+
+    public List<Questionnaire> getQuestionnaires() {
+        return questionnaires;
+    }
+
+    public void setQuestionnaires(List<Questionnaire> questionnaires) {
+        this.questionnaires = questionnaires;
+    }
+
+    public void setSex(Enums.Sex sex) {
+        this.sex = sex;
+    }
+
+    public Enums.Sex getSex() {
+        return sex;
     }
 }
