@@ -17,15 +17,16 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Enums.Sex sex; // if null -> it's general
 
-    //TODO change this to enum
-    private String bloodGroup;
+    @Enumerated(EnumType.STRING)
+    private Enums.BloodGroups bloodGroup;
+
     private int age;
     private String cnp;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, Enums.Sex sex, String bloodGroup, int age, String cnp) {
+    public User(String firstName, String lastName, String email, String password, Enums.Sex sex, Enums.BloodGroups bloodGroup, int age, String cnp) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -72,11 +73,15 @@ public class User {
         this.email = email;
     }
 
-    public String getBloodGroup() {
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public Enums.BloodGroups getBloodGroup() {
         return bloodGroup;
     }
 
-    public void setBloodGroup(String bloodGroup) {
+    public void setBloodGroup(Enums.BloodGroups bloodGroup) {
         this.bloodGroup = bloodGroup;
     }
 

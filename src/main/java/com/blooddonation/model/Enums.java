@@ -11,4 +11,15 @@ public class Enums {
         female
     }
 
+    public enum BloodGroups {
+        Aplus,
+        Aminus,
+        Bplus,
+        Bminus,
+        ABplus,
+        ABminus,
+        Oplus,
+        Ominus,
+        UNKNOWN,
+    }
 }
