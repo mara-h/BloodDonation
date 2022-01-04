@@ -44,7 +44,7 @@ public class QuestionnaireService {
 
     public ResponseEntity<String> addQuestionnaire(Questionnaire questionnaire) {
         try {
-            Questionnaire savedQuestionnaire = questionnaireRepository.save(new Questionnaire(questionnaire.getUserId()));
+            Questionnaire savedQuestionnaire = questionnaireRepository.save(new Questionnaire(questionnaire.getUserId(), questionnaire.isValid()));
             return new ResponseEntity<>("Questionnaire saved successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println("The questionnaire could not be added. Error:" + e.getMessage());
@@ -56,8 +56,8 @@ public class QuestionnaireService {
         Optional<Questionnaire> oldData = questionnaireRepository.findById(id);
         if (oldData.isPresent()) {
             Questionnaire updatedQuestionnaire = oldData.get();
-
-//            TODO update data somehow
+            updatedQuestionnaire.setUserId(questionnaire.getUserId());
+            updatedQuestionnaire.setValid(questionnaire.isValid());
             return new ResponseEntity<>(questionnaireRepository.save(updatedQuestionnaire), HttpStatus.OK);
         } else {
             System.out.println("No such questionnaire found");

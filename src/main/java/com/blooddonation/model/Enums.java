@@ -6,8 +6,9 @@ public class Enums {
         userInput
     }
 
-    public enum GenderSpecificQuestion {
+    public enum Sex {
         male,
         female
     }
+
 }

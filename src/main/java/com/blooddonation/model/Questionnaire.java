@@ -1,15 +1,14 @@
 package com.blooddonation.model;
 
-
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 
+// a questionnaire will not be valid if any answer is "wrong"
 public class Questionnaire {
 
     @Id
@@ -21,10 +20,11 @@ public class Questionnaire {
     private String added_at = dateFormat.format(new Date());
     private UUID userId;
     private List<Answer> userInputAnswers;
-//    private List<Answer> invalidateQuestionnaireAnswers;
+    private boolean valid; // if it's not valid, the user will not be able to do another questionnaire another 12 h at least
 
-    public Questionnaire(UUID userId) {
+    public Questionnaire(UUID userId,boolean valid) {
         this.userId = userId;
+        this.valid = valid;
     }
 
     public Questionnaire() {
@@ -66,15 +66,15 @@ public class Questionnaire {
         this.userInputAnswers = userInputAnswers;
     }
 
-//    public List<Answer> getInvalidateQuestionnaireAnswers() {
-//        return invalidateQuestionnaireAnswers;
-//    }
-//
-//    public void setInvalidateQuestionnaireAnswers(List<Answer> invalidateQuestionnaireAnswers) {
-//        this.invalidateQuestionnaireAnswers = invalidateQuestionnaireAnswers;
-//    }
-
     public UUID getId() {
         return id;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 }

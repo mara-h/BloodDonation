@@ -2,6 +2,7 @@ package com.blooddonation.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 public class User {
@@ -11,15 +12,20 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private String sex; //TODO change this to enum
+    private List<Questionnaire> questionnaires;
+
+    @Enumerated(EnumType.STRING)
+    private Enums.Sex sex; // if null -> it's general
+
     //TODO change this to enum
     private String bloodGroup;
     private int age;
     private String cnp;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(String firstName, String lastName, String email, String password, String sex, String bloodGroup, int age, String cnp) {
+    public User(String firstName, String lastName, String email, String password, Enums.Sex sex, String bloodGroup, int age, String cnp) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -66,14 +72,6 @@ public class User {
         this.email = email;
     }
 
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
     public String getBloodGroup() {
         return bloodGroup;
     }
@@ -96,5 +94,21 @@ public class User {
 
     public void setCnp(String cnp) {
         this.cnp = cnp;
+    }
+
+    public List<Questionnaire> getQuestionnaires() {
+        return questionnaires;
+    }
+
+    public void setQuestionnaires(List<Questionnaire> questionnaires) {
+        this.questionnaires = questionnaires;
+    }
+
+    public void setSex(Enums.Sex sex) {
+        this.sex = sex;
+    }
+
+    public Enums.Sex getSex() {
+        return sex;
     }
 }

@@ -14,7 +14,7 @@ public class Question {
     private Enums.AnswerType answerType;
 
     @Enumerated(EnumType.STRING)
-    private Enums.GenderSpecificQuestion genderSpecific;
+    private Enums.Sex genderSpecific; // if null -> it's general
 
     private boolean isGoodAnswerNo; //TODO: see how to verify answer for user input
 
@@ -22,7 +22,7 @@ public class Question {
     public Question() {
     }
 
-    public Question(String questionBody, int questionOrder, Enums.AnswerType answerType, Enums.GenderSpecificQuestion genderSpecificQuestion, boolean isGoodAnswerNo) {
+    public Question(String questionBody, int questionOrder, Enums.AnswerType answerType, Enums.Sex genderSpecificQuestion, boolean isGoodAnswerNo) {
         this.questionBody = questionBody;
         this.questionOrder = questionOrder;
         this.answerType = answerType;
@@ -50,11 +50,11 @@ public class Question {
         this.questionBody = questionBody;
     }
 
-    public Enums.GenderSpecificQuestion getGenderSpecific() {
+    public Enums.Sex getGenderSpecific() {
         return genderSpecific;
     }
 
-    public void setGenderSpecific(Enums.GenderSpecificQuestion genderSpecific) {
+    public void setGenderSpecific(Enums.Sex genderSpecific) {
         this.genderSpecific = genderSpecific;
     }
 
