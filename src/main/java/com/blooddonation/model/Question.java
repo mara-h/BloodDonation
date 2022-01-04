@@ -1,36 +1,21 @@
 package com.blooddonation.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
-@Table(name = "questions")
 public class Question {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-
-    @NotNull
-    @Column(name = "questionBody")
+    private String id;
     private String questionBody;
-
-    @NotNull
-    @Column(name = "questionOrder")
     private int questionOrder;
-
     public enum AnswerType {
         bool, // yes/no question
         userInput
     }
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "answerType")
     private AnswerType answerType;
-
 
     public enum GenderSpecificQuestion {
         male,
@@ -38,10 +23,8 @@ public class Question {
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "genderSpecific") // if null then it is user for both genders
     private GenderSpecificQuestion genderSpecific;
 
-    @Column(name = "isGoodAnswerNo")
     private boolean isGoodAnswerNo; //TODO: see how to verify answer for user input
 
 
@@ -56,7 +39,7 @@ public class Question {
         this.isGoodAnswerNo = isGoodAnswerNo;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 

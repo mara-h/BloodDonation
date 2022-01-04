@@ -24,10 +24,10 @@ public class QuestionnaireController {
         return questionnaireService.getQuestionnaireById(id);
     }
 
-    @PostMapping("/questionnaires")
-    public ResponseEntity<String> addQuestionnaire(@RequestBody Questionnaire questionnaire) {
-        return questionnaireService.addQuestionnaire(questionnaire);
-    }
+//    @PostMapping("/questionnaires")
+//    public ResponseEntity<String> addQuestionnaire(@RequestBody Questionnaire questionnaire) {
+//        return questionnaireService.addQuestionnaire(questionnaire);
+//    }
 
     @PutMapping("/questionnaires/{id}")
     public ResponseEntity<Questionnaire> updateQuestionnaire(@PathVariable UUID id, @RequestBody Questionnaire questionnaire) {

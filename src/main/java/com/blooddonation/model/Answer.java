@@ -1,12 +1,11 @@
 package com.blooddonation.model;
 
-import com.sun.istack.NotNull;
 
 import java.util.UUID;
 
 public class Answer {
 
-    @NotNull
+
     private UUID questionId;
     private String answer; // used for user input
 

@@ -1,6 +1,5 @@
 package com.blooddonation.model;
 
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.text.DateFormat;
@@ -11,29 +10,18 @@ import java.util.List;
 import java.util.UUID;
 
 
-@Entity
-@Table(name = "questionnaire")
 public class Questionnaire {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private String id;
 
     @org.springframework.data.annotation.Transient
     public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    @Column(name = "addedAt")
     private String added_at = dateFormat.format(new Date());
-
-    @NotNull
-    @Column(name = "userId")
     private UUID userId;
-
-    @Column(name = "userInputAnswers")
     private List<Answer> userInputAnswers = new ArrayList<>();
-
-    @Column(name = "invalidateQuestionnaireAnswers") // so called "wrong answers" will be memorized. If this is null/empty -> it means that a questionnaire is valid and all answers are the "ok" answers
     private List<Answer> invalidateQuestionnaireAnswers = new ArrayList<>();
-
 
     public Questionnaire(String added_at, UUID userId, List<Answer> userInputAnswers, List<Answer> invalidateQuestionnaireAnswers) {
         this.added_at = added_at; // not sure if this needs to be in the constructor
@@ -45,7 +33,7 @@ public class Questionnaire {
     public Questionnaire() {
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -89,7 +77,7 @@ public class Questionnaire {
         this.invalidateQuestionnaireAnswers = invalidateQuestionnaireAnswers;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 }
