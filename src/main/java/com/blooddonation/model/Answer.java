@@ -17,12 +17,12 @@ public class Answer {
 
     }
 
-    public UUID getQuestionId() {
+    public UUID getQuestionnaireId() {
         return QuestionnaireId;
     }
 
-    public void setQuestionId(UUID questionId) {
-        this.QuestionnaireId = questionId;
+    public void setQuestionnaireId(UUID questionnaireId) {
+        QuestionnaireId = questionnaireId;
     }
 
     public String getAnswer() {
