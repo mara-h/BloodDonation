@@ -26,6 +26,6 @@ services:
     ports:
       - 5050:80
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@greenlife.com
+      PGADMIN_DEFAULT_EMAIL: admin@blooddonation.com
       PGADMIN_DEFAULT_PASSWORD: admin
     restart: unless-stopped
