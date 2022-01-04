@@ -30,7 +30,6 @@ public class QuestionnaireService {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(questionnaires, HttpStatus.OK);
-
         } catch (Exception e) {
             System.out.println("Error while getting all questionnaires:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

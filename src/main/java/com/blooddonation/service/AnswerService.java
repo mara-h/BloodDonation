@@ -1,7 +1,10 @@
 package com.blooddonation.service;
 
 import com.blooddonation.model.Answer;
+import com.blooddonation.model.Questionnaire;
+import com.blooddonation.model.User;
 import com.blooddonation.repository.AnswerRepository;
+import com.blooddonation.repository.QuestionnaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,9 @@ import java.util.UUID;
 public class AnswerService {
     @Autowired
     private AnswerRepository answerRepository;
+
+    @Autowired
+    private QuestionnaireRepository questionnaireRepository;
 
     public ResponseEntity<List<Answer>> getAllAnswers() {
         try {
@@ -44,11 +50,42 @@ public class AnswerService {
 
     public ResponseEntity<String> addAnswer(Answer answer) {
         try {
-            Answer savedAnswer = answerRepository.save(new Answer(answer.getQuestionnaireId(), answer.getAnswer()));
-            return new ResponseEntity<>("Answer saved successfully", HttpStatus.CREATED);
+            UUID id = UUID.randomUUID();
+            ResponseEntity response = this.addAnswerToQuestionnaire(answer.getQuestionnaireId(), id);
+            if (response.getStatusCode().isError()) {
+                // TODO: search a better way to do this(if adding answer fails, what happens?)
+                return new ResponseEntity<>("Error adding answer to questionnaire", HttpStatus.BAD_REQUEST);
+            } else {
+                Answer savedAnswer = answerRepository.save(new Answer(id, answer.getQuestionnaireId(), answer.getAnswer()));
+                return new ResponseEntity<>("Answer saved successfully", HttpStatus.CREATED);
+            }
         } catch (Exception e) {
             System.out.println("The answer could not be added. Error:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private ResponseEntity<Questionnaire> addAnswerToQuestionnaire(UUID questionnaireId, UUID id) {
+        if (questionnaireId == null) {
+            System.out.println("Questionnaire ID is null");
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        Optional<Questionnaire> oldData = questionnaireRepository.findById(questionnaireId);
+        if (oldData.isPresent()) {
+            Questionnaire updatedQuestionnaire = oldData.get();
+            if (updatedQuestionnaire.getUserInputAnswerIds() == null) {
+                List<UUID> list = new ArrayList<>();
+                list.add(id);
+                updatedQuestionnaire.setUserInputAnswerIds(list);
+            } else {
+                List<UUID> list = updatedQuestionnaire.getUserInputAnswerIds();
+                list.add(id);
+                updatedQuestionnaire.setUserInputAnswerIds(list);
+            }
+            return new ResponseEntity<>(questionnaireRepository.save(updatedQuestionnaire), HttpStatus.OK);
+        } else {
+            System.out.println("No such questionnaire found");
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 

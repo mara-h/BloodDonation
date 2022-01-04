@@ -11,8 +11,9 @@ public class Answer {
     private UUID QuestionnaireId;
     private String answer; // used for user input
 
-    public Answer(UUID questionId, String answer) {
-        this.QuestionnaireId = questionId;
+    public Answer( UUID id, UUID questionnaireId, String answer) {
+        this.id = id;
+        this.QuestionnaireId = questionnaireId;
         this.answer = answer;
     }
 
