@@ -114,6 +114,7 @@ public class AnswerService {
 
     public ResponseEntity<String> deleteAnswer(UUID id) {
         try {
+            //TODO: delete from questionnaires
             answerRepository.deleteById(id);
             return new ResponseEntity<>("Answer " + id + " successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {

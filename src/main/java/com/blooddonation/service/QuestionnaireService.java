@@ -112,6 +112,8 @@ public class QuestionnaireService {
 
     public ResponseEntity<String> deleteQuestionnaire(UUID id) {
         try {
+            //TODO: cascade delete answers
+            //TODO: delete from user
             questionnaireRepository.deleteById(id);
             return new ResponseEntity<>("Questionnaire " + id + " successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {

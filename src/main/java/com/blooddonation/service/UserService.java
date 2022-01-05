@@ -1,6 +1,8 @@
 package com.blooddonation.service;
 
+import com.blooddonation.model.Questionnaire;
 import com.blooddonation.model.User;
+import com.blooddonation.repository.QuestionnaireRepository;
 import com.blooddonation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private QuestionnaireRepository questionnaireRepository;
 
     public ResponseEntity<List<User>> getAllUsers() {
         try {
@@ -75,6 +80,7 @@ public class UserService {
     public ResponseEntity<String> deleteAllUsers() {
         try {
             userRepository.deleteAll();
+            questionnaireRepository.deleteAll(); // cascade delete Questionnaires;
             return new ResponseEntity<>("Users successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             System.out.println("Users could not be deleted. Error: " + e.getMessage());
@@ -85,10 +91,27 @@ public class UserService {
     public ResponseEntity<String> deleteUser(UUID id) {
         try {
             userRepository.deleteById(id);
+            ResponseEntity response = this.deleteAllUserQuestionnaires(id); // cascade delete questionnaires
+            if(response.getStatusCode().isError()){
+                return new ResponseEntity<>("User " + id + " questionnaires could not be deleted.", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
             return new ResponseEntity<>("User " + id + " successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             System.out.println("User " + id + " could not be deleted. Error: " + e.getMessage());
             return new ResponseEntity<>("User " + id + " could not be deleted. Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private ResponseEntity<String> deleteAllUserQuestionnaires(UUID userId) {
+        try {
+            List<Questionnaire> userQuestionnaires = questionnaireRepository.findAllByUserId(userId);
+            for(Questionnaire userQuestionnaire : userQuestionnaires){
+                    questionnaireRepository.deleteById(userQuestionnaire.getId());
+            }
+            return new ResponseEntity<>("User " + userId + " questionnaires successfully deleted", HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            System.out.println("User questionnaires could not be deleted: " + e.getMessage());
+            return new ResponseEntity<>("User " + userId + "questionnaires could not be deleted: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
