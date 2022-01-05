@@ -1,7 +1,9 @@
 package com.blooddonation.service;
 
+import com.blooddonation.model.Answer;
 import com.blooddonation.model.Questionnaire;
 import com.blooddonation.model.User;
+import com.blooddonation.repository.AnswerRepository;
 import com.blooddonation.repository.QuestionnaireRepository;
 import com.blooddonation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class QuestionnaireService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AnswerRepository answerRepository;
 
     public ResponseEntity<List<Questionnaire>> getAllQuestionnaires() {
         try {
@@ -103,6 +108,7 @@ public class QuestionnaireService {
     public ResponseEntity<String> deleteAllQuestionnaires() {
         try {
             questionnaireRepository.deleteAll();
+            answerRepository.deleteAll();// cascade delete answers
             return new ResponseEntity<>("Questionnaires successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             System.out.println("Questionnaires could not be deleted. Error: " + e.getMessage());
@@ -112,13 +118,57 @@ public class QuestionnaireService {
 
     public ResponseEntity<String> deleteQuestionnaire(UUID id) {
         try {
-            //TODO: cascade delete answers
-            //TODO: delete from user
+            UUID userId = null;
+            Optional<Questionnaire> questionnaire = questionnaireRepository.findById(id);
+            if (questionnaire.isPresent()) {
+                Questionnaire questionnaireData = questionnaire.get();
+                userId = questionnaireData.getUserId();
+            }
+
             questionnaireRepository.deleteById(id);
+
+            if (userId == null) {
+                return new ResponseEntity<>("Error deleting questionnaire from user", HttpStatus.INTERNAL_SERVER_ERROR);
+            }else{
+                ResponseEntity response = this.removeQuestionnaireFromUser(userId);
+                if(response.getStatusCode().isError()){
+                    return new ResponseEntity<>("Error deleting questionnaire from user", HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+
+           ResponseEntity responseEntity =  this.deleteQuestionnaireAnswers(id); // cascade delete answers
+            if(responseEntity.getStatusCode().isError()){
+                return new ResponseEntity<>("Error cascade-deleting answers", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
             return new ResponseEntity<>("Questionnaire " + id + " successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             System.out.println("Questionnaire " + id + " could not be deleted. Error: " + e.getMessage());
             return new ResponseEntity<>("Questionnaire " + id + " could not be deleted. Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private ResponseEntity<String> deleteQuestionnaireAnswers(UUID questionnaireId) {
+        try {
+            List<Answer> questionnaireAnswers = answerRepository.findAllByQuestionnaireId(questionnaireId);
+            for (Answer questionnaireAnswer : questionnaireAnswers) {
+                questionnaireRepository.deleteById(questionnaireAnswer.getId());
+            }
+            return new ResponseEntity<>("Questionnaire " + questionnaireId + " answers successfully deleted", HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            System.out.println("Questionnaire answers could not be deleted: " + e.getMessage());
+            return new ResponseEntity<>("Questionnaire " + questionnaireId + "answers could not be deleted: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private ResponseEntity<String> removeQuestionnaireFromUser(UUID userId) {
+        try {
+            List<Questionnaire> userQuestionnaires = questionnaireRepository.findAllByUserId(userId);
+
+            return new ResponseEntity<>("Removed questionnaire from user", HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("Questionnaire could not be removed: " + e.getMessage());
+            return new ResponseEntity<>("Questionnaire could not be removed: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
