@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AnswerService {
@@ -51,7 +52,6 @@ public class AnswerService {
     public ResponseEntity<String> addAnswer(Answer answer) {
         try {
             UUID id = UUID.randomUUID();
-            System.out.println("stuff"+ answer.toString());
             ResponseEntity response = this.addAnswerToQuestionnaire(answer.getQuestionnaireId(), id);
             if (response.getStatusCode().isError()) {
                 // TODO: search a better way to do this(if adding answer fails, what happens?)
@@ -116,12 +116,53 @@ public class AnswerService {
 
     public ResponseEntity<String> deleteAnswer(UUID id) {
         try {
-            //TODO: delete from questionnaires
+            //delete from questionnaires
+            UUID questionnaireId = null;
+            Optional<Answer> answer = answerRepository.findById(id);
+            if (answer.isPresent()) {
+                Answer answerData = answer.get();
+                questionnaireId = answerData.getQuestionnaireId();
+            } else {
+                return new ResponseEntity<>("Questionnaire does not exist", HttpStatus.NOT_FOUND);
+            }
+
             answerRepository.deleteById(id);
+            if (questionnaireId == null) {
+                return new ResponseEntity<>("Error deleting answer from questionnaire: questionnaire ID null", HttpStatus.INTERNAL_SERVER_ERROR);
+            } else {
+                ResponseEntity response = this.removeAnswersFromQuestionnaires(questionnaireId);
+                if (response.getStatusCode().isError()) {
+                    System.out.println("error:" + response.getBody());
+                    return new ResponseEntity<>("Error deleting questionnaire from user", HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+
+            this.removeAnswersFromQuestionnaires(questionnaireId);
             return new ResponseEntity<>("Answer " + id + " successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             System.out.println("Answer " + id + " could not be deleted. Error: " + e.getMessage());
             return new ResponseEntity<>("Answer " + id + " could not be deleted. Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private ResponseEntity<String> removeAnswersFromQuestionnaires(UUID questionnaireId) {
+        try {
+            List<Answer> questionnaireAnswers = answerRepository.findAllByQuestionnaireId(questionnaireId);
+            List<UUID> answersIds = questionnaireAnswers.stream().map(Answer::getId).collect(Collectors.toList());
+
+            Optional<Questionnaire> oldData = questionnaireRepository.findById(questionnaireId);
+            if (oldData.isPresent()) {
+                Questionnaire updatedQuestionnaire = oldData.get();
+                updatedQuestionnaire.setUserInputAnswerIds(answersIds);
+                questionnaireRepository.save(updatedQuestionnaire);
+            } else {
+                System.out.println("No such questionnaire found - remove answers from questionnaire");
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>("Removed answers from questionnaire", HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("Answer could not be removed: " + e.getMessage());
+            return new ResponseEntity<>("Answer could not be removed: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

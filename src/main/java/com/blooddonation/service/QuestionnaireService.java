@@ -57,7 +57,7 @@ public class QuestionnaireService {
             UUID id = UUID.randomUUID();
             ResponseEntity response = this.addQuestionnaireToUser(questionnaire.getUserId(), id);
             if (response.getStatusCode().isError()) {
-                // TODO: search a better way to do this(if adding questionnaire fails, what happens?)
+                // TODO: if adding questionnaire fails, what happens?)
                 return new ResponseEntity<>("Error adding questionnaire to user", HttpStatus.BAD_REQUEST);
             } else {
                 Questionnaire savedQuestionnaire = questionnaireRepository.save(new Questionnaire(id, questionnaire.getUserId(), questionnaire.isValid()));
