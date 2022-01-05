@@ -12,7 +12,7 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private List<Questionnaire> questionnaires;
+    private List<UUID> questionnairesIds;
 
     @Enumerated(EnumType.STRING)
     private Enums.Sex sex; // if null -> it's general
@@ -101,12 +101,12 @@ public class User {
         this.cnp = cnp;
     }
 
-    public List<Questionnaire> getQuestionnaires() {
-        return questionnaires;
+    public List<UUID> getQuestionnairesIds() {
+        return questionnairesIds;
     }
 
-    public void setQuestionnaires(List<Questionnaire> questionnaires) {
-        this.questionnaires = questionnaires;
+    public void setQuestionnairesIds(List<UUID> questionnairesIds) {
+        this.questionnairesIds = questionnairesIds;
     }
 
     public void setSex(Enums.Sex sex) {
