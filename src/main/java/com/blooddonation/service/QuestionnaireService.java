@@ -110,7 +110,14 @@ public class QuestionnaireService {
         try {
             questionnaireRepository.deleteAll();
             answerRepository.deleteAll();// cascade delete answers
-            //TODO: remove from every user every questionnaire
+
+            List<User> users = new ArrayList<User>();
+
+            userRepository.findAll().forEach(users::add); // remove questionnaires from every user
+            for (User user : users) {
+                user.setQuestionnairesIds(null);
+            }
+
             return new ResponseEntity<>("Questionnaires successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             System.out.println("Questionnaires could not be deleted. Error: " + e.getMessage());
