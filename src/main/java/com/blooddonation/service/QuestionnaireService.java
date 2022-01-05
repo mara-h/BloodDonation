@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionnaireService {
@@ -129,15 +130,15 @@ public class QuestionnaireService {
 
             if (userId == null) {
                 return new ResponseEntity<>("Error deleting questionnaire from user", HttpStatus.INTERNAL_SERVER_ERROR);
-            }else{
+            } else {
                 ResponseEntity response = this.removeQuestionnaireFromUser(userId);
-                if(response.getStatusCode().isError()){
+                if (response.getStatusCode().isError()) {
                     return new ResponseEntity<>("Error deleting questionnaire from user", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
 
-           ResponseEntity responseEntity =  this.deleteQuestionnaireAnswers(id); // cascade delete answers
-            if(responseEntity.getStatusCode().isError()){
+            ResponseEntity responseEntity = this.deleteQuestionnaireAnswers(id); // cascade delete answers
+            if (responseEntity.getStatusCode().isError()) {
                 return new ResponseEntity<>("Error cascade-deleting answers", HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
@@ -164,7 +165,16 @@ public class QuestionnaireService {
     private ResponseEntity<String> removeQuestionnaireFromUser(UUID userId) {
         try {
             List<Questionnaire> userQuestionnaires = questionnaireRepository.findAllByUserId(userId);
+            List<UUID> questionnaireIds = userQuestionnaires.stream().map(Questionnaire::getId).collect(Collectors.toList());
 
+            Optional<User> oldUserData = userRepository.findById(userId);
+            if (oldUserData.isPresent()) {
+                User updatedUser = oldUserData.get();
+                updatedUser.setQuestionnairesIds(questionnaireIds);
+            } else {
+                System.out.println("No such user found - remove questionnaire from user");
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
             return new ResponseEntity<>("Removed questionnaire from user", HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("Questionnaire could not be removed: " + e.getMessage());
