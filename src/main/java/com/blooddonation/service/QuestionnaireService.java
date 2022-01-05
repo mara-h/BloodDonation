@@ -124,15 +124,17 @@ public class QuestionnaireService {
             if (questionnaire.isPresent()) {
                 Questionnaire questionnaireData = questionnaire.get();
                 userId = questionnaireData.getUserId();
+            } else {
+                return new ResponseEntity<>("Questionnaire does not exist", HttpStatus.NOT_FOUND);
             }
-
             questionnaireRepository.deleteById(id);
 
             if (userId == null) {
-                return new ResponseEntity<>("Error deleting questionnaire from user", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("Error deleting questionnaire from user: user ID null", HttpStatus.INTERNAL_SERVER_ERROR);
             } else {
                 ResponseEntity response = this.removeQuestionnaireFromUser(userId);
                 if (response.getStatusCode().isError()) {
+                    System.out.println("error:" + response.getBody());
                     return new ResponseEntity<>("Error deleting questionnaire from user", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
@@ -166,11 +168,11 @@ public class QuestionnaireService {
         try {
             List<Questionnaire> userQuestionnaires = questionnaireRepository.findAllByUserId(userId);
             List<UUID> questionnaireIds = userQuestionnaires.stream().map(Questionnaire::getId).collect(Collectors.toList());
-
             Optional<User> oldUserData = userRepository.findById(userId);
             if (oldUserData.isPresent()) {
                 User updatedUser = oldUserData.get();
                 updatedUser.setQuestionnairesIds(questionnaireIds);
+                userRepository.save(updatedUser);
             } else {
                 System.out.println("No such user found - remove questionnaire from user");
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

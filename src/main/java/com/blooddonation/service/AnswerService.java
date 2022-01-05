@@ -51,9 +51,11 @@ public class AnswerService {
     public ResponseEntity<String> addAnswer(Answer answer) {
         try {
             UUID id = UUID.randomUUID();
+            System.out.println("stuff"+ answer.toString());
             ResponseEntity response = this.addAnswerToQuestionnaire(answer.getQuestionnaireId(), id);
             if (response.getStatusCode().isError()) {
                 // TODO: search a better way to do this(if adding answer fails, what happens?)
+                System.out.println("Error:" + response.getBody());
                 return new ResponseEntity<>("Error adding answer to questionnaire", HttpStatus.BAD_REQUEST);
             } else {
                 Answer savedAnswer = answerRepository.save(new Answer(id, answer.getQuestionnaireId(), answer.getAnswer()));

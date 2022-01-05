@@ -8,12 +8,12 @@ public class Answer {
     @Id
     private UUID id = UUID.randomUUID();
 
-    private UUID QuestionnaireId;
+    private UUID questionnaireId;
     private String answer; // used for user input
 
     public Answer( UUID id, UUID questionnaireId, String answer) {
         this.id = id;
-        this.QuestionnaireId = questionnaireId;
+        this.questionnaireId = questionnaireId;
         this.answer = answer;
     }
 
@@ -30,11 +30,11 @@ public class Answer {
     }
 
     public UUID getQuestionnaireId() {
-        return QuestionnaireId;
+        return questionnaireId;
     }
 
     public void setQuestionnaireId(UUID questionnaireId) {
-        QuestionnaireId = questionnaireId;
+        this.questionnaireId = questionnaireId;
     }
 
     public String getAnswer() {
