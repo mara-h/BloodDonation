@@ -110,6 +110,7 @@ public class QuestionnaireService {
         try {
             questionnaireRepository.deleteAll();
             answerRepository.deleteAll();// cascade delete answers
+            //TODO: remove from every user every questionnaire
             return new ResponseEntity<>("Questionnaires successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             System.out.println("Questionnaires could not be deleted. Error: " + e.getMessage());

@@ -13,6 +13,7 @@ public class User {
     private String email;
     private String password;
     private List<UUID> questionnairesIds;
+    private List<UUID> appointmentIds;
 
     @Enumerated(EnumType.STRING)
     private Enums.Sex sex; // if null -> it's general
@@ -115,5 +116,13 @@ public class User {
 
     public Enums.Sex getSex() {
         return sex;
+    }
+
+    public List<UUID> getAppointmentIds() {
+        return appointmentIds;
+    }
+
+    public void setAppointmentIds(List<UUID> appointmentIds) {
+        this.appointmentIds = appointmentIds;
     }
 }

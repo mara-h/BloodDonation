@@ -106,7 +106,7 @@ public class AnswerService {
 
     public ResponseEntity<String> deleteAllAnswers() {
         try {
-            answerRepository.deleteAll();
+            answerRepository.deleteAll(); //TODO: remove from every questionnaire every answer
             return new ResponseEntity<>("Answers successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             System.out.println("Answers could not be deleted. Error: " + e.getMessage());
