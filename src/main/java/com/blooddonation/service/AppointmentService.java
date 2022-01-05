@@ -130,9 +130,17 @@ public class AppointmentService {
         }
     }
 
-    public ResponseEntity<String> deleteAllAppointments() { //TODO: remove from every user every appointment
+    public ResponseEntity<String> deleteAllAppointments() {
+        //TODO: remove from every user every appointment
         try {
             appointmentRepository.deleteAll();
+
+            List<User> users = new ArrayList<User>();
+            userRepository.findAll().forEach(users::add); // remove appointments from every user
+            for (User user : users) {
+                user.setAppointmentIds(null);
+            }
+
             return new ResponseEntity<>("Appointments successfully deleted", HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             System.out.println("Appointments could not be deleted. Error: " + e.getMessage());
