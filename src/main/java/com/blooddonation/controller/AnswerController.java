@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin
 public class AnswerController {
     @Autowired
     private AnswerService answerService;

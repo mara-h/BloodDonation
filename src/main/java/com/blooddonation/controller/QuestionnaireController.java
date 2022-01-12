@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@CrossOrigin
 public class QuestionnaireController {
     @Autowired
     private QuestionnaireService questionnaireService;
