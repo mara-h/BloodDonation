@@ -141,8 +141,6 @@ public class UserService {
 
     public ResponseEntity<User> verifyUserLogin(User givenUser) {
         Optional<User> user;
-        String firstName = givenUser.getFirstName();
-        String lastName = givenUser.getLastName();
         String password = givenUser.getPassword();
         String email = givenUser.getEmail();
 
@@ -158,7 +156,7 @@ public class UserService {
                 return new ResponseEntity<>(user.get(), HttpStatus.OK);
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } else {
-            System.out.println("No user found");
+            System.out.println("No user found!!!");
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
