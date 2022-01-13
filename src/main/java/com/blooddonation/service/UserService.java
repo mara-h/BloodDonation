@@ -152,33 +152,28 @@ public class UserService {
     }
 
     public ResponseEntity<User> verifyUserLogin(User givenUser) {
-        try {
-            Optional<User> user;
-            String password = givenUser.getPassword();
-            String email = givenUser.getEmail();
+        Optional<User> user;
+        String password = givenUser.getPassword();
+        String email = givenUser.getEmail();
 
-            if (password == null)
+        if (password == null)
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        if (email == null)
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            if (email == null)
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            user = Optional.ofNullable(userRepository.findByEmail(email));
+        user = Optional.ofNullable(userRepository.findByEmail(email));
 
-            if (user.isPresent()) {
-                User foundUser = user.get();
-                String savedPassword = foundUser.getPassword();
-                if (savedPassword.equals(givenUser.getPassword())) {
-                    System.out.println("CEVA" + foundUser.isMedic());
-                    return new ResponseEntity<>(foundUser, HttpStatus.OK);
-                }
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-            } else {
-                System.out.println("No user found!!!");
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        if (user.isPresent()) {
+            User foundUser = user.get();
+            String savedPassword = foundUser.getPassword();
+            if (savedPassword.equals(givenUser.getPassword())) {
+                System.out.println("CEVA" + foundUser.isMedic());
+                return new ResponseEntity<>(foundUser, HttpStatus.OK);
             }
-        }catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.ALREADY_REPORTED);g
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } else {
+            System.out.println("No user found!!!");
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-
     }
 
 
