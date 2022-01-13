@@ -167,7 +167,7 @@ public class UserService {
             String savedPassword = foundUser.getPassword();
             if (savedPassword.equals(givenUser.getPassword())) {
                 System.out.println("CEVA" + foundUser.isMedic());
-                return new ResponseEntity<>(user.get(), HttpStatus.OK);
+                return new ResponseEntity<>(foundUser, HttpStatus.OK);
             }
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } else {
