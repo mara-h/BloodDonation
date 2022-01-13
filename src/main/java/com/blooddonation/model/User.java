@@ -1,6 +1,4 @@
 package com.blooddonation.model;
-
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +12,7 @@ public class User {
     private String password;
     private List<UUID> questionnairesIds;
     private List<UUID> appointmentIds;
+    private boolean isMedic;
 
     @Enumerated(EnumType.STRING)
     private Enums.Sex sex; // if null -> it's general
@@ -36,6 +35,7 @@ public class User {
         this.bloodGroup = bloodGroup;
         this.age = age;
         this.cnp = cnp;
+        this.isMedic = false;
     }
 
     public UUID getId() {
@@ -124,5 +124,13 @@ public class User {
 
     public void setAppointmentIds(List<UUID> appointmentIds) {
         this.appointmentIds = appointmentIds;
+    }
+
+    public boolean isMedic() {
+        return isMedic;
+    }
+
+    public void setMedic(boolean medic) {
+        isMedic = medic;
     }
 }
