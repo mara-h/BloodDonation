@@ -35,7 +35,7 @@ public class UserController {
         return userService.addUser(user);
     }
 
-    @PostMapping("/createMedic")
+    @PostMapping("/users/createMedic")
     public ResponseEntity<String> addMedic(@RequestBody User user) { return userService.addMedic(user);}
 
     @PutMapping("/users/{id}")

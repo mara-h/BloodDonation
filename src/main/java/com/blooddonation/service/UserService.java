@@ -152,28 +152,33 @@ public class UserService {
     }
 
     public ResponseEntity<User> verifyUserLogin(User givenUser) {
-        Optional<User> user;
-        String password = givenUser.getPassword();
-        String email = givenUser.getEmail();
+        try {
+            Optional<User> user;
+            String password = givenUser.getPassword();
+            String email = givenUser.getEmail();
 
-        if (password == null)
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        if (email == null)
+            if (password == null)
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        user = Optional.ofNullable(userRepository.findByEmail(email));
+            if (email == null)
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            user = Optional.ofNullable(userRepository.findByEmail(email));
 
-        if (user.isPresent()) {
-            User foundUser = user.get();
-            String savedPassword = foundUser.getPassword();
-            if (savedPassword.equals(givenUser.getPassword())) {
-                System.out.println("CEVA" + foundUser.isMedic());
-                return new ResponseEntity<>(foundUser, HttpStatus.OK);
+            if (user.isPresent()) {
+                User foundUser = user.get();
+                String savedPassword = foundUser.getPassword();
+                if (savedPassword.equals(givenUser.getPassword())) {
+                    System.out.println("CEVA" + foundUser.isMedic());
+                    return new ResponseEntity<>(foundUser, HttpStatus.OK);
+                }
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            } else {
+                System.out.println("No user found!!!");
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } else {
-            System.out.println("No user found!!!");
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.ALREADY_REPORTED);g
         }
+
     }
 
 
