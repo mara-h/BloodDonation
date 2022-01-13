@@ -176,7 +176,7 @@ public class UserService {
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }
         }catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.ALREADY_REPORTED);g
+            return new ResponseEntity<>(null,HttpStatus.ALREADY_REPORTED);
         }
 
     }
