@@ -162,7 +162,7 @@ public class UserService {
             if (email == null)
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             user = Optional.ofNullable(userRepository.findByEmail(email));
-            System.out.println("CEVA!@# "+ user);
+            System.out.println("CEVA!@# "+ email + password);
             if (user.isPresent()) {
                 User foundUser = user.get();
                 System.out.println("167: found user " + foundUser);
