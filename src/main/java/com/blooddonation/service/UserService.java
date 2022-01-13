@@ -63,18 +63,6 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<String> addMedic(User user) {
-        try {
-            User medic = new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getSex(), user.getBloodGroup(), user.getAge(), user.getCnp());
-            medic.setMedic(true);
-            User savedUser = userRepository.save(medic);
-            return new ResponseEntity<>("User saved successfully", HttpStatus.CREATED);
-        } catch (Exception e) {
-            System.out.println("The user could not be added. Error:" + e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     public ResponseEntity<User> updateUser(UUID id, User userData) {
         Optional<User> oldUserData = userRepository.findById(id);
         if (oldUserData.isPresent()) {
@@ -161,7 +149,6 @@ public class UserService {
         if (email == null)
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         user = Optional.ofNullable(userRepository.findByEmail(email));
-
         if (user.isPresent()) {
             User foundUser = user.get();
             String savedPassword = foundUser.getPassword();
@@ -173,7 +160,5 @@ public class UserService {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
-
-
 }
 

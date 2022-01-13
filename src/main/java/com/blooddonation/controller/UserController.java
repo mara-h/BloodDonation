@@ -35,9 +35,6 @@ public class UserController {
         return userService.addUser(user);
     }
 
-    @PostMapping("/createMedic")
-    public ResponseEntity<String> addMedic(@RequestBody User user) { return userService.addMedic(user);}
-
     @PutMapping("/users/{id}")
     public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody User user) {
         return userService.updateUser(id, user);
