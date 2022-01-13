@@ -162,12 +162,10 @@ public class UserService {
             if (email == null)
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             user = Optional.ofNullable(userRepository.findByEmail(email));
-            System.out.println("CEVA!@# "+ email);
+
             if (user.isPresent()) {
                 User foundUser = user.get();
-                System.out.println("167: found user " + foundUser);
                 String savedPassword = foundUser.getPassword();
-                System.out.println("167: found user " + savedPassword);
                 if (savedPassword.equals(givenUser.getPassword())) {
                     System.out.println("CEVA" + foundUser.isMedic());
                     return new ResponseEntity<>(foundUser, HttpStatus.OK);
