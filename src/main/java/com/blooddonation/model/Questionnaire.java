@@ -20,9 +20,9 @@ public class Questionnaire {
     private String added_at = dateFormat.format(new Date());
     private UUID userId;
     private List<UUID> userInputAnswerIds;
-    private boolean valid; // if it's not valid, the user will not be able to do another questionnaire another 12 h at least
+    private Boolean valid; // if it's not valid, the user will not be able to do another questionnaire another 12 h at least
 
-    public Questionnaire(UUID id, UUID userId,boolean valid) {
+    public Questionnaire(UUID id, UUID userId,Boolean valid) {
         this.id = id;
         this.userId = userId;
         this.valid = valid;
@@ -71,11 +71,11 @@ public class Questionnaire {
         return id;
     }
 
-    public boolean isValid() {
+    public Boolean isValid() {
         return valid;
     }
 
-    public void setValid(boolean valid) {
+    public void setValid(Boolean valid) {
         this.valid = valid;
     }
 }
