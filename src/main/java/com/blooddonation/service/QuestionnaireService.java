@@ -52,17 +52,18 @@ public class QuestionnaireService {
         }
     }
 
-    public ResponseEntity<String> addQuestionnaire(Questionnaire questionnaire) {
+    public ResponseEntity<Questionnaire> addQuestionnaire(Questionnaire questionnaire) {
         try {
             UUID id = UUID.randomUUID();
             ResponseEntity response = this.addQuestionnaireToUser(questionnaire.getUserId(), id);
             if (response.getStatusCode().isError()) {
                 // TODO: if adding questionnaire fails, what happens?)
-                return new ResponseEntity<>("Error adding questionnaire to user", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             } else {
                 Questionnaire savedQuestionnaire = questionnaireRepository.save(new Questionnaire(id, questionnaire.getUserId(), questionnaire.isValid()));
+                return new ResponseEntity<>(savedQuestionnaire, HttpStatus.CREATED);
             }
-            return new ResponseEntity<>("Questionnaire saved successfully", HttpStatus.CREATED);
+
         } catch (Exception e) {
             System.out.println("The questionnaire could not be added. Error:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

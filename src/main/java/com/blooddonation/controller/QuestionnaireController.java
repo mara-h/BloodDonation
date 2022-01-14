@@ -28,7 +28,7 @@ public class QuestionnaireController {
     }
 
     @PostMapping("/questionnaires")
-    public ResponseEntity<String> addQuestionnaire(@RequestBody Questionnaire questionnaire) {
+    public ResponseEntity<Questionnaire> addQuestionnaire(@RequestBody Questionnaire questionnaire) {
         return questionnaireService.addQuestionnaire(questionnaire);
     }
 
