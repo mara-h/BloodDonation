@@ -12,5 +12,5 @@ import java.util.UUID;
 public interface AppointmentRepository extends MongoRepository<Appointment, UUID> {
     List<Appointment> findAllByUserId(UUID userId);
     //TODO: fct findAllByHour sau dayAndHour -> returnez o lista de appointment
-    List<Appointment> findAllByDayAndHour(String dayOfAppointment, Enums.Hours hours);
+//    List<Appointment> findAllByDayAndHour(String dayOfAppointment, Enums.Hours hours);
 }
