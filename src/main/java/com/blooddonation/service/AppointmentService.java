@@ -37,19 +37,15 @@ public class AppointmentService {
             if (appointments.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            System.out.println("Appointment list 1" + appointments);
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
-
 
             appointments.stream()
                     .filter(appointment -> appointment.getDayOfAppointment().equals(formatter.format(date)))
                     .forEach(busyAppointments::add);
 
-            System.out.println("Appointment list after filter" + appointments);
-
-            return new ResponseEntity<>(appointments, HttpStatus.OK);
+            return new ResponseEntity<>(busyAppointments, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("Error while getting available appointments:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
