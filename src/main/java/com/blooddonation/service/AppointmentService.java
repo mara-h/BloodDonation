@@ -56,8 +56,10 @@ public class AppointmentService {
             if(busyAppointments.isEmpty())
                 return new ResponseEntity<>(allPossibilitieString, HttpStatus.OK);
 
+
             allPossibilitieString.removeAll(Collections.singletonList(null));
             allPossibilitieString.removeAll(busyAppointments);
+            //allPossibilities.removeAll(busyAppointments);
 
             System.out.println("final"+allPossibilitieString);
 
