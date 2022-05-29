@@ -34,7 +34,8 @@ public class AppointmentService {
         try {
             List<Appointment> appointments = new ArrayList<>();
             List<String> busyAppointments = new ArrayList<>();
-            List<String> allPossibilities = Arrays.asList(Enums.Hours.values().toString());
+            List<Enums.Hours> allPossibilities = Arrays.asList(Enums.Hours.values());
+            List<String> allPossibilitieString = allPossibilities.stream().map(el -> el.toString()).collect(Collectors.toList());
 
 
             appointmentRepository.findAll().forEach(appointments::add);
@@ -53,16 +54,16 @@ public class AppointmentService {
 
             System.out.println("2:"+busyAppointments);
             if(busyAppointments.isEmpty())
-                return new ResponseEntity<>(allPossibilities, HttpStatus.OK);
+                return new ResponseEntity<>(allPossibilitieString, HttpStatus.OK);
 
 
-            allPossibilities.removeAll(Collections.singletonList(null));
-            allPossibilities.removeAll(Collections.singletonList(busyAppointments));
+            allPossibilitieString.removeAll(Collections.singletonList(null));
+            allPossibilitieString.removeAll(Collections.singletonList(busyAppointments));
             //allPossibilities.removeAll(busyAppointments);
 
-            System.out.println("final"+allPossibilities);
+            System.out.println("final"+allPossibilitieString);
 
-            return new ResponseEntity<>(allPossibilities, HttpStatus.OK);
+            return new ResponseEntity<>(allPossibilitieString, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("Error while getting available appointments:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
