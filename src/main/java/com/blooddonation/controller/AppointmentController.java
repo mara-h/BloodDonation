@@ -44,4 +44,10 @@ public class AppointmentController {
     public ResponseEntity<String> deleteAppointment(@PathVariable UUID id) {
         return appointmentService.deleteAppointment(id);
     }
+
+    //TODO: getAvailableAppointment function
+    @GetMapping("/appointments/available")
+    public ResponseEntity<List<Appointment>> getAvailableAppointments(@RequestBody Appointment appointment) {
+        return appointmentService.getAvailableAppointments();
+    }
 }

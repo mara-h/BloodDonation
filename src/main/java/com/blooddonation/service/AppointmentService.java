@@ -6,15 +6,14 @@ import com.blooddonation.model.User;
 import com.blooddonation.repository.AppointmentRepository;
 import com.blooddonation.repository.QuestionnaireRepository;
 import com.blooddonation.repository.UserRepository;
+import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +26,30 @@ public class AppointmentService {
 
     @Autowired
     private QuestionnaireRepository questionnaireRepository;
+
+    //TODO: implementarea functiei getAvailableAppointments din controller ->
+
+    public ResponseEntity<List<Appointment>> getAvailableAppointments() {
+        try {
+            List<Appointment> appointments = new ArrayList<>();
+            appointmentRepository.findAll().forEach(appointments::add);
+            if (appointments.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+
+            appointments.stream()
+                    .filter(appointment -> appointment.getDayOfAppointment().equals(formatter.format((date))));
+
+            return new ResponseEntity<>(appointments, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("Error while getting available appointments:" + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     public ResponseEntity<List<Appointment>> getAllAppointments() {
         try {
