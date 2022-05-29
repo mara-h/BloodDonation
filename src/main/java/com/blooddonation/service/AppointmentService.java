@@ -45,11 +45,16 @@ public class AppointmentService {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
 
+            System.out.println("1:"+allPossibilities);
+
             appointments.stream()
                     .filter(appointment -> appointment.getDayOfAppointment().equals(formatter.format(date)))
                     .forEach(appointment -> busyAppointments.add(appointment.getHourOfAppointment()));
 
+            System.out.println("2:"+busyAppointments);
             allPossibilities.removeAll(busyAppointments);
+
+            System.out.println("final"+allPossibilities);
 
             return new ResponseEntity<>(allPossibilities, HttpStatus.OK);
         } catch (Exception e) {
