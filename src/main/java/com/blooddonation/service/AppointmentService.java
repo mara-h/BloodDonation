@@ -30,12 +30,11 @@ public class AppointmentService {
 
     //TODO: implementarea functiei getAvailableAppointments din controller ->
 
-    public ResponseEntity<List<String>> getAvailableAppointments() {
+    public ResponseEntity<List<Enums.Hours>> getAvailableAppointments() {
         try {
             List<Appointment> appointments = new ArrayList<>();
-            List<String> busyAppointments = new ArrayList<>();
+            List<Enums.Hours> busyAppointments = new ArrayList<>();
             List<Enums.Hours> allPossibilities = Arrays.asList(Enums.Hours.values());
-            List<String> allPossibilitieString = allPossibilities.stream().map(el -> el.toString()).collect(Collectors.toList());
 
 
             appointmentRepository.findAll().forEach(appointments::add);
@@ -50,20 +49,20 @@ public class AppointmentService {
 
             appointments.stream()
                     .filter(appointment -> appointment.getDayOfAppointment().equals(formatter.format(date)) && appointment.getHourOfAppointment()!=null)
-                    .forEach(appointment -> busyAppointments.add(appointment.getHourOfAppointment().toString()));
+                    .forEach(appointment -> busyAppointments.add(appointment.getHourOfAppointment()));
 
             System.out.println("2:"+busyAppointments);
             if(busyAppointments.isEmpty())
-                return new ResponseEntity<>(allPossibilitieString, HttpStatus.OK);
+                return new ResponseEntity<>(allPossibilities, HttpStatus.OK);
 
 
-            allPossibilitieString.removeAll(Collections.singletonList(null));
-            allPossibilitieString.removeAll(busyAppointments);
-            //allPossibilities.removeAll(busyAppointments);
+            allPossibilities.removeAll(Collections.singletonList(null));
+          //  allPossibilities.removeAll(Collections.);
+            allPossibilities.removeAll(busyAppointments);
 
-            System.out.println("final"+allPossibilitieString);
+            System.out.println("final"+allPossibilities);
 
-            return new ResponseEntity<>(allPossibilitieString, HttpStatus.OK);
+            return new ResponseEntity<>(allPossibilities, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("Error while getting available appointments:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

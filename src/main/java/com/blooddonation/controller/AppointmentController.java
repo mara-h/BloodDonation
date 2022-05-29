@@ -48,7 +48,7 @@ public class AppointmentController {
 
     //TODO: getAvailableAppointment function
     @GetMapping("/appointments/available")
-    public ResponseEntity<List<String>> getAvailableAppointments() {
+    public ResponseEntity<List<Enums.Hours>> getAvailableAppointments() {
         return appointmentService.getAvailableAppointments();
     }
 }
