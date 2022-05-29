@@ -48,7 +48,7 @@ public class AppointmentService {
             System.out.println("1:"+allPossibilities);
 
             appointments.stream()
-                    .filter(appointment -> appointment.getDayOfAppointment().equals(formatter.format(date)))
+                    .filter(appointment -> appointment.getDayOfAppointment().equals(formatter.format(date)) && appointment.getHourOfAppointment()!=null)
                     .forEach(appointment -> busyAppointments.add(appointment.getHourOfAppointment()));
 
             System.out.println("2:"+busyAppointments);
