@@ -101,6 +101,8 @@ public class AppointmentService {
             UUID id = UUID.randomUUID();
             System.out.println(appointment.getUserId());
             Appointment editedAppointment = this.getUserIdFromQuestionnaire(appointment);
+            System.out.println(editedAppointment.getUserId().toString()+ editedAppointment.getQuestionnaireId() + editedAppointment.getDayOfAppointment() + editedAppointment.getHourOfAppointment());
+
             if (editedAppointment == null) {
                 return new ResponseEntity<>("Could not add user ID", HttpStatus.INTERNAL_SERVER_ERROR);
             }
