@@ -1,6 +1,7 @@
 package com.blooddonation.service;
 
 import com.blooddonation.model.Appointment;
+import com.blooddonation.model.Enums;
 import com.blooddonation.model.Questionnaire;
 import com.blooddonation.model.User;
 import com.blooddonation.repository.AppointmentRepository;
@@ -29,10 +30,13 @@ public class AppointmentService {
 
     //TODO: implementarea functiei getAvailableAppointments din controller ->
 
-    public ResponseEntity<List<Appointment>> getAvailableAppointments() {
+    public ResponseEntity<List<Enums.Hours>> getAvailableAppointments() {
         try {
             List<Appointment> appointments = new ArrayList<>();
-            List<Appointment> busyAppointments = new ArrayList<>();
+            List<Enums.Hours> busyAppointments = new ArrayList<>();
+            List<Enums.Hours> allPossibilities = Arrays.asList(Enums.Hours.values());
+
+
             appointmentRepository.findAll().forEach(appointments::add);
             if (appointments.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -43,9 +47,11 @@ public class AppointmentService {
 
             appointments.stream()
                     .filter(appointment -> appointment.getDayOfAppointment().equals(formatter.format(date)))
-                    .forEach(busyAppointments::add);
+                    .forEach(appointment -> busyAppointments.add(appointment.getHourOfAppointment()));
 
-            return new ResponseEntity<>(busyAppointments, HttpStatus.OK);
+            allPossibilities.removeAll(busyAppointments);
+
+            return new ResponseEntity<>(allPossibilities, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("Error while getting available appointments:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

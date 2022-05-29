@@ -1,6 +1,7 @@
 package com.blooddonation.controller;
 
 import com.blooddonation.model.Appointment;
+import com.blooddonation.model.Enums;
 import com.blooddonation.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +48,7 @@ public class AppointmentController {
 
     //TODO: getAvailableAppointment function
     @GetMapping("/appointments/available")
-    public ResponseEntity<List<Appointment>> getAvailableAppointments(@RequestBody Appointment appointment) {
+    public ResponseEntity<List<Enums.Hours>> getAvailableAppointments(@RequestBody Appointment appointment) {
         return appointmentService.getAvailableAppointments();
     }
 }
