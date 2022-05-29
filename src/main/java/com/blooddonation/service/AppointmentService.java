@@ -58,7 +58,7 @@ public class AppointmentService {
 
 
             allPossibilitieString.removeAll(Collections.singletonList(null));
-            allPossibilitieString.removeAll(Collections.singletonList(busyAppointments));
+            allPossibilitieString.removeAll(busyAppointments);
             //allPossibilities.removeAll(busyAppointments);
 
             System.out.println("final"+allPossibilitieString);
