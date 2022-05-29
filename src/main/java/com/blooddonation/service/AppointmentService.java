@@ -52,7 +52,13 @@ public class AppointmentService {
                     .forEach(appointment -> busyAppointments.add(appointment.getHourOfAppointment()));
 
             System.out.println("2:"+busyAppointments);
-            allPossibilities.removeAll(busyAppointments);
+            if(busyAppointments.isEmpty())
+                return new ResponseEntity<>(allPossibilities, HttpStatus.OK);
+
+
+            allPossibilities.removeAll(Collections.singletonList(null));
+            allPossibilities.removeAll(Collections.singletonList(busyAppointments));
+            //allPossibilities.removeAll(busyAppointments);
 
             System.out.println("final"+allPossibilities);
 
