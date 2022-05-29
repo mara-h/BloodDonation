@@ -32,6 +32,7 @@ public class AppointmentService {
     public ResponseEntity<List<Appointment>> getAvailableAppointments() {
         try {
             List<Appointment> appointments = new ArrayList<>();
+            List<Appointment> busyAppointments = new ArrayList<>();
             appointmentRepository.findAll().forEach(appointments::add);
             if (appointments.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -44,7 +45,7 @@ public class AppointmentService {
 
             appointments.stream()
                     .filter(appointment -> appointment.getDayOfAppointment().equals(formatter.format(date)))
-                    .forEach(System.out::println);
+                    .forEach(busyAppointments::add);
 
             System.out.println("Appointment list after filter" + appointments);
 
