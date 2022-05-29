@@ -107,7 +107,7 @@ public class AppointmentService {
                 System.out.println("Add appointment to user error" + response.getBody());
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            return new ResponseEntity<>(null, HttpStatus.CREATED);
+            return new ResponseEntity<>(savedAppointment, HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println("The appointment could not be added. Error:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
