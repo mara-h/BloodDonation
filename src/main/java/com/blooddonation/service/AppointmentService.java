@@ -43,7 +43,8 @@ public class AppointmentService {
 
 
             appointments.stream()
-                    .filter(appointment -> appointment.getDayOfAppointment().equals(formatter.format((date))));
+                    .filter(appointment -> appointment.getDayOfAppointment().equals(formatter.format(date)))
+                    .forEach(System.out::println);
 
             System.out.println("Appointment list after filter" + appointments);
 
