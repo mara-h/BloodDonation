@@ -40,7 +40,7 @@ public class AppointmentService {
 
             appointmentRepository.findAll().forEach(appointments::add);
             if (appointments.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(allPossibilitieString,HttpStatus.OK);
             }
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
