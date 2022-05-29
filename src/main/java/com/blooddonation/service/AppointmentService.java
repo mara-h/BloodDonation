@@ -96,45 +96,24 @@ public class AppointmentService {
         }
     }
 
-    public ResponseEntity<String> addAppointment(Appointment appointment) {
+    public ResponseEntity<Appointment> addAppointment(Appointment appointment) {
         try {
             UUID id = UUID.randomUUID();
             System.out.println(appointment.getUserId());
-//            Appointment editedAppointment = this.getUserIdFromQuestionnaire(appointment);
-//            System.out.println(editedAppointment.getUserId().toString()+ editedAppointment.getQuestionnaireId() + editedAppointment.getDayOfAppointment() + editedAppointment.getHourOfAppointment());
-
-//            if (editedAppointment == null) {
-//                return new ResponseEntity<>("Could not add user ID", HttpStatus.INTERNAL_SERVER_ERROR);
-//            }
             Appointment savedAppointment = appointmentRepository.save(new Appointment(id, appointment.getDayOfAppointment(), appointment.getHourOfAppointment(), appointment.getQuestionnaireId(), appointment.getUserId()));
-            System.out.println("1>>,");
+
             ResponseEntity response = this.addAppointmentToUser(savedAppointment.getUserId(), savedAppointment.getId());
             if (response.getStatusCode().isError()) {
-                System.out.println("Err:" + response.getBody());
-                return new ResponseEntity<>("Add appointment to user error", HttpStatus.INTERNAL_SERVER_ERROR);
+                System.out.println("Add appointment to user error" + response.getBody());
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            return new ResponseEntity<>("Appointment saved successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>(null, HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println("The appointment could not be added. Error:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-//    private Appointment getUserIdFromQuestionnaire(Appointment appointment) {
-//        Optional<Questionnaire> questionnaire = questionnaireRepository.findById(appointment.getQuestionnaireId());
-//        if (questionnaire.isPresent()) {
-//            Questionnaire questionnaireData = questionnaire.get();
-//            UUID userId = questionnaireData.getUserId();
-//            if (userId == null) {
-//                return null;
-//            } else {
-//                appointment.setUserId(userId);
-//            }
-//        } else {
-//            return null;
-//        }
-//        return appointment;
-//    }
 
     private ResponseEntity<User> addAppointmentToUser(UUID userId, UUID id) {
         if (userId == null) {

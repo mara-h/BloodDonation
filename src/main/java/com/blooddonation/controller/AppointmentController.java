@@ -27,7 +27,7 @@ public class AppointmentController {
         return appointmentService.getAppointmentById(id);
     }
     @PostMapping("/appointments")
-    public ResponseEntity<String> addAppointment(@RequestBody Appointment appointment) {
+    public ResponseEntity<Appointment> addAppointment(@RequestBody Appointment appointment) {
         return appointmentService.addAppointment(appointment);
     }
 
