@@ -30,11 +30,11 @@ public class AppointmentService {
 
     //TODO: implementarea functiei getAvailableAppointments din controller ->
 
-    public ResponseEntity<List<Enums.Hours>> getAvailableAppointments() {
+    public ResponseEntity<List<String>> getAvailableAppointments() {
         try {
             List<Appointment> appointments = new ArrayList<>();
-            List<Enums.Hours> busyAppointments = new ArrayList<>();
-            List<Enums.Hours> allPossibilities = Arrays.asList(Enums.Hours.values());
+            List<String> busyAppointments = new ArrayList<>();
+            List<String> allPossibilities = Arrays.asList(Enums.Hours.values().toString());
 
 
             appointmentRepository.findAll().forEach(appointments::add);
@@ -49,7 +49,7 @@ public class AppointmentService {
 
             appointments.stream()
                     .filter(appointment -> appointment.getDayOfAppointment().equals(formatter.format(date)) && appointment.getHourOfAppointment()!=null)
-                    .forEach(appointment -> busyAppointments.add(appointment.getHourOfAppointment()));
+                    .forEach(appointment -> busyAppointments.add(appointment.getHourOfAppointment().toString()));
 
             System.out.println("2:"+busyAppointments);
             if(busyAppointments.isEmpty())
