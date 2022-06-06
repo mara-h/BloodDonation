@@ -3,10 +3,7 @@ package com.blooddonation.model;
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 
 // a questionnaire will not be valid if any answer is "wrong"
@@ -18,12 +15,16 @@ public class Questionnaire {
     @org.springframework.data.annotation.Transient
     public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+    public static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+
+
     Date date = new Date();
+    Date newDate = new Date(date.getTime() + "3");
+
     //String time = formatter.format(date);
 
     //private String added_at = dateFormat.format(new Date());
-    private String added_at = formatter.format(date);
+    private String added_at = formatter.format(newDate);
     private UUID userId;
     private List<UUID> userInputAnswerIds;
     private Boolean valid; // if it's not valid, the user will not be able to do another questionnaire another 12 h at least
