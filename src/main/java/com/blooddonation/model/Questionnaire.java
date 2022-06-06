@@ -3,6 +3,8 @@ package com.blooddonation.model;
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -19,9 +21,13 @@ public class Questionnaire {
 //    Date date = new Date();
 //    String time = formatter.format(date);
 
-    Locale locale = new Locale("ro", "RO");
-    DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.DEFAULT, locale);
-    String time = timeFormat.format(new Date());
+//    Locale locale = new Locale("ro", "RO");
+//    DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.DEFAULT, locale);
+//    String time = timeFormat.format(new Date());
+
+    LocalDateTime myDateObj = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    String time = formatter.toString();
 
     //private String added_at = dateFormat.format(new Date());
     private String added_at = time;
