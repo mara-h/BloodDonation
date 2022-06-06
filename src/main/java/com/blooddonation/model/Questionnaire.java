@@ -1,5 +1,7 @@
 package com.blooddonation.model;
 
+import org.apache.juli.logging.Log;
+
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,9 +27,10 @@ public class Questionnaire {
 //    DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.DEFAULT, locale);
 //    String time = timeFormat.format(new Date());
 
-    LocalDateTime myDateObj = LocalDateTime.now();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-    String time = formatter.toString();
+    public LocalDateTime ldt = LocalDateTime.now();
+    LocalDateTime newLdt = ldt.plusHours(3);
+    String time = newLdt.toString();
+
 
     //private String added_at = dateFormat.format(new Date());
     private String added_at = time;
