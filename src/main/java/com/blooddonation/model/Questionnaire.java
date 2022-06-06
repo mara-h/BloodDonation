@@ -15,13 +15,13 @@ public class Questionnaire {
     @org.springframework.data.annotation.Transient
     public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+//    public static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+//    Date date = new Date();
+//    String time = formatter.format(date);
 
-
-    Date date = new Date();
-
-
-    String time = formatter.format(date);
+    Locale locale = new Locale("ro", "RO");
+    DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.DEFAULT, locale);
+    String time = timeFormat.format(new Date());
 
     //private String added_at = dateFormat.format(new Date());
     private String added_at = time;
