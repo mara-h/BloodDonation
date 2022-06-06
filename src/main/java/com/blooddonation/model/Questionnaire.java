@@ -17,7 +17,8 @@ public class Questionnaire {
     @org.springframework.data.annotation.Transient
     public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    private String added_at = dateFormat.format(new Date());
+    //private String added_at = dateFormat.format(new Date());
+    private String added_at;
     private UUID userId;
     private List<UUID> userInputAnswerIds;
     private Boolean valid; // if it's not valid, the user will not be able to do another questionnaire another 12 h at least
