@@ -19,12 +19,12 @@ public class Questionnaire {
 
 
     Date date = new Date();
-    Date newDate = new Date(date.getTime() + "3");
 
-    //String time = formatter.format(date);
+
+    String time = formatter.format(date);
 
     //private String added_at = dateFormat.format(new Date());
-    private String added_at = formatter.format(newDate);
+    private String added_at = time+"3";
     private UUID userId;
     private List<UUID> userInputAnswerIds;
     private Boolean valid; // if it's not valid, the user will not be able to do another questionnaire another 12 h at least
