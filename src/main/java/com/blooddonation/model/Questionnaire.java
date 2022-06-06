@@ -19,18 +19,9 @@ public class Questionnaire {
     @org.springframework.data.annotation.Transient
     public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-//    public static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-//    Date date = new Date();
-//    String time = formatter.format(date);
-
-//    Locale locale = new Locale("ro", "RO");
-//    DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.DEFAULT, locale);
-//    String time = timeFormat.format(new Date());
-
-    public LocalDateTime ldt = LocalDateTime.now();
-    LocalDateTime newLdt = ldt.plusHours(3);
-    String time = newLdt.toString();
-
+    public static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+    Date date = new Date();
+    String time = formatter.format(date);
 
     //private String added_at = dateFormat.format(new Date());
     private String added_at = time;
