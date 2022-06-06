@@ -22,7 +22,7 @@ public class Questionnaire {
     //String time = formatter.format(date);
 
     //private String added_at = dateFormat.format(new Date());
-    private String added_at = formatter.format(date);
+    private String added_at = formatter.format(date)+3;
     private UUID userId;
     private List<UUID> userInputAnswerIds;
     private Boolean valid; // if it's not valid, the user will not be able to do another questionnaire another 12 h at least
