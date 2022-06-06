@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 
@@ -17,12 +18,12 @@ public class Questionnaire {
     @org.springframework.data.annotation.Transient
     public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+    public static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
     Date date = new Date();
     //String time = formatter.format(date);
 
     //private String added_at = dateFormat.format(new Date());
-    private String added_at = formatter.format(date)+3;
+    private String added_at = formatter.format(date);
     private UUID userId;
     private List<UUID> userInputAnswerIds;
     private Boolean valid; // if it's not valid, the user will not be able to do another questionnaire another 12 h at least
