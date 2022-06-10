@@ -51,21 +51,10 @@ public class UserService {
         }
     }
 
-    //
-    public static String encodePassword(String password){
-        String result = Base64.getEncoder().encodeToString(password.getBytes());
-
-        return result;
-    }
-
-
-    //
 
 
     public ResponseEntity<String> addUser(User user) {
         try {
-            String encodedPassword = encodePassword(user.getPassword());
-            user.setPassword(encodedPassword);
             User savedUser = userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getSex(), user.getBloodGroup(), user.getAge(), user.getCnp()));
             return new ResponseEntity<>("User saved successfully", HttpStatus.CREATED);
         } catch (Exception e) {
