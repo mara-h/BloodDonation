@@ -1,12 +1,8 @@
 package com.blooddonation.model;
 
-import org.apache.juli.logging.Log;
-
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -19,9 +15,10 @@ public class Questionnaire {
     @org.springframework.data.annotation.Transient
     public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+    public static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
     Date date = new Date();
     String time = formatter.format(date);
+
 
     //private String added_at = dateFormat.format(new Date());
     private String added_at = time;
