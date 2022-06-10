@@ -20,11 +20,6 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-   //
-    PasswordEncoder passwordEncoder;
-    //
-
-
     @Autowired
     private UserRepository userRepository;
 
@@ -34,16 +29,6 @@ public class UserService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-
-    //
-//    public User save(User user) {
-//        String encodedPassword = this.passwordEncoder.encode(user.getPassword());
-//        user.setPassword(encodedPassword);
-//        return this.userRepository.save(user);
-//    }
-
-
-    //
 
     public ResponseEntity<List<User>> getAllUsers() {
         try {
@@ -72,8 +57,6 @@ public class UserService {
 
     public ResponseEntity<String> addUser(User user) {
         try {
-            String encodedPassword = this.passwordEncoder.encode(user.getPassword());
-            user.setPassword(encodedPassword);
             User savedUser = userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getSex(), user.getBloodGroup(), user.getAge(), user.getCnp()));
             return new ResponseEntity<>("User saved successfully", HttpStatus.CREATED);
         } catch (Exception e) {
