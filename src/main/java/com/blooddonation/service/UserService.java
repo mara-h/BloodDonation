@@ -17,7 +17,7 @@ import java.util.*;
 @Service
 public class UserService {
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UserRepository userRepository;
@@ -75,6 +75,7 @@ public class UserService {
             updatedUser.setFirstName(userData.getFirstName());
             updatedUser.setLastName(userData.getLastName());
             updatedUser.setEmail(userData.getEmail());
+           //
             updatedUser.setPassword(bCryptPasswordEncoder.encode(userData.getPassword()));
             updatedUser.setSex(userData.getSex());
             updatedUser.setBloodGroup(userData.getBloodGroup());
@@ -158,7 +159,7 @@ public class UserService {
         if (user.isPresent()) {
             User foundUser = user.get();
             String savedPassword = foundUser.getPassword();
-            if(bCryptPasswordEncoder.matches(savedPassword, givenUser.getPassword()))
+            if(bCryptPasswordEncoder.matches(givenUser.getPassword(), savedPassword))
 
            // if (savedPassword.equals(givenUser.getPassword()))
                 return new ResponseEntity<>(user.get(), HttpStatus.OK);
