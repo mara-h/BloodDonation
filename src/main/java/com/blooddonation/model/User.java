@@ -28,9 +28,8 @@ public class User {
     private int age;
     private String cnp;
 
-    //String bcryptHashString = BCrypt.withDefaults().hashToString(12, password.toCharArray());
 
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+   // private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public User() {
     }
@@ -39,8 +38,8 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        //this.password = password;
-        this.passwordHash=encoder.encode(password);
+        this.password = password;
+        //this.passwordHash=encoder.encode(password);
         this.sex = sex;
         this.bloodGroup = bloodGroup;
         this.age = age;
@@ -68,14 +67,14 @@ public class User {
     }
 
     public String getPassword() {
-        if(isMatchingPassword(password))
+        //if(isMatchingPassword(password))
             return password;
-        return "";
+        //return "";
     }
 
     public void setPassword(String password) {
-        //this.password = password;
-        this.passwordHash=encoder.encode(password);
+        this.password = password;
+        //this.passwordHash=encoder.encode(password);
     }
 
     public String getEmail() {
@@ -139,9 +138,9 @@ public class User {
     }
 
 
-    public boolean isMatchingPassword(String password) {
-        return encoder.matches(password, passwordHash);
-    }
+//    public boolean isMatchingPassword(String password) {
+//        return encoder.matches(password, passwordHash);
+//    }
 
 }
 
