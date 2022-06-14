@@ -17,7 +17,7 @@ import java.util.*;
 @Service
 public class UserService {
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    //private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UserRepository userRepository;
@@ -58,9 +58,9 @@ public class UserService {
 
     public ResponseEntity<String> addUser(User user) {
         try {
-           // User savedUser = userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getSex(), user.getBloodGroup(), user.getAge(), user.getCnp()));
-            String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-            User savedUser = userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), encodedPassword, user.getSex(), user.getBloodGroup(), user.getAge(), user.getCnp()));
+            User savedUser = userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getSex(), user.getBloodGroup(), user.getAge(), user.getCnp()));
+            //String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+           // User savedUser = userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), encodedPassword, user.getSex(), user.getBloodGroup(), user.getAge(), user.getCnp()));
             return new ResponseEntity<>("User saved successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println("The user could not be added. Error:" + e.getMessage());
@@ -75,8 +75,8 @@ public class UserService {
             updatedUser.setFirstName(userData.getFirstName());
             updatedUser.setLastName(userData.getLastName());
             updatedUser.setEmail(userData.getEmail());
-           //
-            updatedUser.setPassword(bCryptPasswordEncoder.encode(userData.getPassword()));
+           updatedUser.setPassword(userData.getPassword());
+            //updatedUser.setPassword(bCryptPasswordEncoder.encode(userData.getPassword()));
             updatedUser.setSex(userData.getSex());
             updatedUser.setBloodGroup(userData.getBloodGroup());
             updatedUser.setAge(userData.getAge());
@@ -159,9 +159,9 @@ public class UserService {
         if (user.isPresent()) {
             User foundUser = user.get();
             String savedPassword = foundUser.getPassword();
-            if(bCryptPasswordEncoder.matches(givenUser.getPassword(), savedPassword))
+            //if(bCryptPasswordEncoder.matches(password, savedPassword))
 
-           // if (savedPassword.equals(givenUser.getPassword()))
+            if (savedPassword.equals(givenUser.getPassword()))
                 return new ResponseEntity<>(user.get(), HttpStatus.OK);
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } else {
