@@ -17,7 +17,7 @@ import java.util.*;
 @Service
 public class UserService {
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UserRepository userRepository;
