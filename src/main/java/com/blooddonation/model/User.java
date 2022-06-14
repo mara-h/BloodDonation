@@ -1,9 +1,4 @@
 package com.blooddonation.model;
-
-
-import at.favre.lib.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;

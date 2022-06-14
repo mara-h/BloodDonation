@@ -3,7 +3,6 @@ package com.blooddonation.controller;
 import com.blooddonation.model.User;
 import com.blooddonation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
