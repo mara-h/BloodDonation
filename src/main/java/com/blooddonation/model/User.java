@@ -12,7 +12,6 @@ public class User {
     private String password;
     private List<UUID> questionnairesIds;
     private List<UUID> appointmentIds;
-    private String passwordHash;
 
     @Enumerated(EnumType.STRING)
     private Enums.Sex sex; // if null -> it's general
@@ -24,8 +23,6 @@ public class User {
     private String cnp;
 
 
-   // private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
     public User() {
     }
 
@@ -34,7 +31,6 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        //this.passwordHash=encoder.encode(password);
         this.sex = sex;
         this.bloodGroup = bloodGroup;
         this.age = age;
@@ -62,14 +58,11 @@ public class User {
     }
 
     public String getPassword() {
-        //if(isMatchingPassword(password))
             return password;
-        //return "";
     }
 
     public void setPassword(String password) {
         this.password = password;
-        //this.passwordHash=encoder.encode(password);
     }
 
     public String getEmail() {
@@ -131,11 +124,5 @@ public class User {
     public void setAppointmentIds(List<UUID> appointmentIds) {
         this.appointmentIds = appointmentIds;
     }
-
-
-//    public boolean isMatchingPassword(String password) {
-//        return encoder.matches(password, passwordHash);
-//    }
-
 }
 
