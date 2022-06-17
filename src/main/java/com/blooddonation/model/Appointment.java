@@ -15,7 +15,7 @@ public class Appointment {
     @org.springframework.data.annotation.Transient
     public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    private String dayOfAppointment = dateFormat.format(new Date()); // TODO: this returns added at, not day of appointment
+    private String dayOfAppointment = dateFormat.format(new Date());
 
     @Enumerated(EnumType.STRING)
     private Enums.Hours hourOfAppointment;

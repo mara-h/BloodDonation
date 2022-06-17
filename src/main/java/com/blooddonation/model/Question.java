@@ -16,7 +16,7 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private Enums.Sex genderSpecific; // if null -> it's general
 
-    private Boolean isGoodAnswerNo; //TODO: see how to verify answer for user input
+    private Boolean isGoodAnswerNo;
 
 
     public Question() {

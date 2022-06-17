@@ -54,7 +54,6 @@ public class AnswerService {
             UUID id = UUID.randomUUID();
             ResponseEntity response = this.addAnswerToQuestionnaire(answer.getQuestionnaireId(), id);
             if (response.getStatusCode().isError()) {
-                // TODO: search a better way to do this(if adding answer fails, what happens?)
                 System.out.println("Error:" + response.getBody());
                 return new ResponseEntity<>("Error adding answer to questionnaire", HttpStatus.BAD_REQUEST);
             } else {

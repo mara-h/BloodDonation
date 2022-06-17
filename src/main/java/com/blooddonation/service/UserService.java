@@ -11,12 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Service
 public class UserService {
 
-    //private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UserRepository userRepository;
@@ -57,10 +59,11 @@ public class UserService {
 
     public ResponseEntity<String> addUser(User user) {
         try {
-            User savedUser = userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getSex(), user.getBloodGroup(), user.getAge(), user.getCnp()));
-            //String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-           // User savedUser = userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), encodedPassword, user.getSex(), user.getBloodGroup(), user.getAge(), user.getCnp()));
-            return new ResponseEntity<>("User saved successfully", HttpStatus.CREATED);
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(user.getPassword().getBytes(StandardCharsets.UTF_8));
+            String encrypted = hash.toString();
+            User savedUser = userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), encrypted, user.getSex(), user.getBloodGroup(), user.getAge(), user.getCnp()));
+             return new ResponseEntity<>("User saved successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println("The user could not be added. Error:" + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -69,13 +72,21 @@ public class UserService {
 
     public ResponseEntity<User> updateUser(UUID id, User userData) {
         Optional<User> oldUserData = userRepository.findById(id);
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] hash = digest.digest(userData.getPassword().getBytes(StandardCharsets.UTF_8));
+        String encrypted = hash.toString();
         if (oldUserData.isPresent()) {
             User updatedUser = oldUserData.get();
             updatedUser.setFirstName(userData.getFirstName());
             updatedUser.setLastName(userData.getLastName());
             updatedUser.setEmail(userData.getEmail());
-            updatedUser.setPassword(userData.getPassword());
-            //updatedUser.setPassword(bCryptPasswordEncoder.encode(userData.getPassword()));
+            //updatedUser.setPassword(userData.getPassword());
+            updatedUser.setPassword(encrypted);
             updatedUser.setSex(userData.getSex());
             updatedUser.setBloodGroup(userData.getBloodGroup());
             updatedUser.setAge(userData.getAge());
@@ -146,11 +157,23 @@ public class UserService {
 
     public ResponseEntity<User> verifyUserLogin(User givenUser) {
         Optional<User> user;
-        String password = givenUser.getPassword();
+
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] hash = digest.digest(givenUser.getPassword().getBytes(StandardCharsets.UTF_8));
+        String encrypted = hash.toString();
+
+
+        //String password = givenUser.getPassword();
         String email = givenUser.getEmail();
 
 
-        if (password == null)
+        //if (password == null)
+        if (encrypted == null)
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         if (email == null)
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -158,9 +181,10 @@ public class UserService {
         if (user.isPresent()) {
             User foundUser = user.get();
             String savedPassword = foundUser.getPassword();
-            //if(bCryptPasswordEncoder.matches(password, savedPassword))
 
-            if (savedPassword.equals(givenUser.getPassword()))
+
+           // if (savedPassword.equals(givenUser.getPassword()))
+            if (savedPassword.equals(encrypted))
                 return new ResponseEntity<>(user.get(), HttpStatus.OK);
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } else {
