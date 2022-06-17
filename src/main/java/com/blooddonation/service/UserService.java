@@ -61,7 +61,7 @@ public class UserService {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(user.getPassword().getBytes(StandardCharsets.UTF_8));
-            String encrypted = hash.toString();
+            String encrypted = Arrays.toString(hash);
             User savedUser = userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), encrypted, user.getSex(), user.getBloodGroup(), user.getAge(), user.getCnp()));
              return new ResponseEntity<>("User saved successfully", HttpStatus.CREATED);
         } catch (Exception e) {
@@ -79,7 +79,7 @@ public class UserService {
             e.printStackTrace();
         }
         byte[] hash = digest.digest(userData.getPassword().getBytes(StandardCharsets.UTF_8));
-        String encrypted = hash.toString();
+        String encrypted = Arrays.toString(hash);
         if (oldUserData.isPresent()) {
             User updatedUser = oldUserData.get();
             updatedUser.setFirstName(userData.getFirstName());
@@ -165,7 +165,7 @@ public class UserService {
             e.printStackTrace();
         }
         byte[] hash = digest.digest(givenUser.getPassword().getBytes(StandardCharsets.UTF_8));
-        String encrypted = hash.toString();
+        String encrypted = Arrays.toString(hash);
 
         //String password = givenUser.getPassword();
         String email = givenUser.getEmail();
@@ -185,8 +185,8 @@ public class UserService {
             User foundUser = user.get();
             String savedPassword = foundUser.getPassword();
             System.out.println(givenUser.getPassword()+"->gvnUserPwd");
-            System.out.println(savedPassword + "->savedPwd");
-            System.out.println(Arrays.toString(hash) + "->encrypted");
+            System.out.println(savedPassword+ "->savedPwd");
+            System.out.println(encrypted + "->encrypted");
 
            // if (savedPassword.equals(givenUser.getPassword()))
             if (savedPassword.equals(encrypted))
