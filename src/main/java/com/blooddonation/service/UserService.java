@@ -186,7 +186,7 @@ public class UserService {
             String savedPassword = foundUser.getPassword();
             System.out.println(givenUser.getPassword()+"->gvnUserPwd");
             System.out.println(savedPassword + "->savedPwd");
-            System.out.println(encrypted + "->encrypted");
+            System.out.println(Arrays.toString(hash) + "->encrypted");
 
            // if (savedPassword.equals(givenUser.getPassword()))
             if (savedPassword.equals(encrypted))
