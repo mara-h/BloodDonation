@@ -167,21 +167,25 @@ public class UserService {
         byte[] hash = digest.digest(givenUser.getPassword().getBytes(StandardCharsets.UTF_8));
         String encrypted = hash.toString();
 
-
         //String password = givenUser.getPassword();
         String email = givenUser.getEmail();
 
-
         //if (password == null)
-        if (encrypted == null)
+        if (encrypted == null) {
+            System.out.println("aici1");
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        if (email == null)
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
+        }
+        if (email == null) {
+            System.out.println("aici2");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
         user = Optional.ofNullable(userRepository.findByEmail(email));
         if (user.isPresent()) {
             User foundUser = user.get();
             String savedPassword = foundUser.getPassword();
-
+            System.out.println(savedPassword + "->savedPwd");
+            System.out.println(encrypted + "encrypted");
 
            // if (savedPassword.equals(givenUser.getPassword()))
             if (savedPassword.equals(encrypted))
