@@ -184,10 +184,6 @@ public class UserService {
         if (user.isPresent()) {
             User foundUser = user.get();
             String savedPassword = foundUser.getPassword();
-            System.out.println(givenUser.getPassword()+"->gvnUserPwd");
-            System.out.println(savedPassword+ "->savedPwd");
-            System.out.println(encrypted + "->encrypted");
-
            // if (savedPassword.equals(givenUser.getPassword()))
             if (savedPassword.equals(encrypted))
                 return new ResponseEntity<>(user.get(), HttpStatus.OK);
